@@ -3,7 +3,7 @@ package ma.youcode.surveyit.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "owners")
@@ -22,6 +22,6 @@ public class Owner {
     private String name;
 
     @OneToMany
-    private Set<Survey> survey;
+    private List<Survey> survey;
 
 }
