@@ -5,6 +5,7 @@ import ma.youcode.surveyit.dto.owner.CreateDTO;
 import ma.youcode.surveyit.dto.owner.ResponseDTO;
 import ma.youcode.surveyit.dto.owner.UpdateDTO;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
+import ma.youcode.surveyit.util.annotations.interfaces.Exist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class OwnerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> owner(@PathVariable Long id) {
+    public ResponseEntity<ResponseDTO> owner(@Exist @PathVariable Long id) {
         return ResponseEntity.ok(service.getOwner(id));
     }
 
