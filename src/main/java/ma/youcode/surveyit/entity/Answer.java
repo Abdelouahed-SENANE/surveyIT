@@ -25,7 +25,8 @@ public class Answer {
     private int selectionCount;
 
     @ManyToOne
-    private Question subject;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
 
 

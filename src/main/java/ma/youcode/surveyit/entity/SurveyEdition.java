@@ -22,9 +22,13 @@ public class SurveyEdition {
     private LocalDateTime startDate;
 
     @Column(name = "year_edition")
-    private LocalDateTime yean;
+    private LocalDateTime year;
 
-    @OneToMany(mappedBy = "surveyedition")
+    @OneToMany(mappedBy = "surveyEdition")
     private Set<Subject> subjects;
+
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
 
 }

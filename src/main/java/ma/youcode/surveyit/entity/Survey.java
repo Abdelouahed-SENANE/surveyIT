@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "surveys")
 @Data
@@ -25,8 +27,10 @@ public class Survey {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
-
+    @OneToMany(mappedBy = "survey")
+    private Set<SurveyEdition> surveyEditions;
 
 }
