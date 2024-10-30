@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import ma.youcode.surveyit.dto.owner.CreateDTO;
 import ma.youcode.surveyit.dto.owner.ResponseDTO;
 import ma.youcode.surveyit.dto.owner.UpdateDTO;
+import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.util.annotations.interfaces.Exist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class OwnerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> owner(@Exist @PathVariable Long id) {
+    public ResponseEntity<ResponseDTO> owner(@PathVariable @Exist(entity = Owner.class , message = "Owner Not Found")  Long id) {
         return ResponseEntity.ok(service.getOwner(id));
     }
 

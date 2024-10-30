@@ -19,4 +19,5 @@ public @interface Exist {
 
     Class<? extends Payload>[] payload() default{};
 
+    Class<?> entity();
 }

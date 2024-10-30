@@ -1,19 +1,22 @@
-package ma.youcode.surveyit.dto.owner;
+package ma.youcode.surveyit.dto.survey;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ma.youcode.surveyit.entity.Owner;
+import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.util.annotations.interfaces.Exist;
 
 import java.io.Serializable;
 
 public record UpdateDTO
         (
-                @Exist(message = "Owner Not Found" , entity = Owner.class)
+                @Exist(message = "Survey Not Found" , entity = Survey.class)
                 @NotNull
                 Long id,
                 @NotEmpty
-                String name
+                String title,
+                @NotEmpty
+                String desc
         )
 
         implements Serializable {
