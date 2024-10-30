@@ -1,6 +1,7 @@
 package ma.youcode.surveyit.util.annotations.implementations;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -21,17 +22,22 @@ public class ExistValidator implements ConstraintValidator<Exists, Long> {
     @Override
     public boolean isValid(Long id, ConstraintValidatorContext context) {
         if (id == null) {
-            return false;
+            return true;
         }
 
         boolean exists = manager.find(entityClass, id) != null;
 
         if(!exists){
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(entityClass.getSimpleName() + " not found with id " + id)
-                    .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode("id") // Or the relevant property name
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+            return false;
+//            context.disableDefaultConstraintViolation();
+//            context.buildConstraintViolationWithTemplate(entityClass.getSimpleName() + " not found with id " + id)
+//                    .addConstraintViolation();
         }
-        return exists;
+        return true;
     }
 
 

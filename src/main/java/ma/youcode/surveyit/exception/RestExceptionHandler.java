@@ -2,22 +2,18 @@ package ma.youcode.surveyit.exception;
 
 import ma.youcode.surveyit.dto.ErrorDTO;
 import ma.youcode.surveyit.dto.ValidationDTO;
+import ma.youcode.surveyit.repository.SurveyRepository;
+import ma.youcode.surveyit.util.Response;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.DefaultMessageCodesResolver;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
-import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -28,20 +24,19 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 public class RestExceptionHandler {
     private  final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
+    public RestExceptionHandler(SurveyRepository surveyRepository) {
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleGenericException(Exception e) {
 
         logger.error("An unexpected error occurred: {}", e.getMessage(), e);
+        return Response.error(400 , e.getMessage() , LocalDateTime.now());
 
-        ErrorDTO errorResponse = new ErrorDTO
-                (HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        "An error occured: " + e.getMessage(),
-                        LocalDateTime.now());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ValidationDTO> handleValidationException(MethodArgumentNotValidException e) {
         Map<String , String> errors = new HashMap<>();
 
@@ -50,16 +45,20 @@ public class RestExceptionHandler {
         });
 
         ValidationDTO errorResponse = new ValidationDTO
-                (HttpStatus.BAD_REQUEST.value(),
+                (400,
                          errors,
                         LocalDateTime.now());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ErrorDTO handleEntityNotFoundException(EntityNotFoundException ex) {
+        return new ErrorDTO(404, ex.getMessage(), LocalDateTime.now());
+    }
+
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<ErrorDTO> HandlerMethodValidationException(HandlerMethodValidationException e) {
-
 
         String responseMessage = e.getAllValidationResults().stream()
                 .map(result -> {
@@ -70,13 +69,7 @@ public class RestExceptionHandler {
                 .filter(message -> !message.isEmpty())
                 .collect(Collectors.joining("; "));
 
-
-        ErrorDTO errorResponse = new ErrorDTO
-                (HttpStatus.BAD_REQUEST.value(),
-                        responseMessage,
-                        LocalDateTime.now());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return Response.error(400 , responseMessage , LocalDateTime.now());
     }
 
 }

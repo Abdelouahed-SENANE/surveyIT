@@ -1,48 +1,99 @@
 package ma.youcode.surveyit.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import ma.youcode.surveyit.dto.SuccessDTO;
 import ma.youcode.surveyit.dto.owner.CreateDTO;
 import ma.youcode.surveyit.dto.owner.ResponseDTO;
 import ma.youcode.surveyit.dto.owner.UpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
+import ma.youcode.surveyit.util.Response;
 import ma.youcode.surveyit.util.annotations.interfaces.Exists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/owners")
+@AllArgsConstructor
 public class OwnerController {
 
-    @Autowired
-    private OwnerService service;
+    private final OwnerService service;
 
     @GetMapping
-    public ResponseEntity<List<ResponseDTO>> owners() {
-        return ResponseEntity.ok(service.getAllOwners());
+    public ResponseEntity<SuccessDTO> owners() {
+
+        List<ResponseDTO> owners = service.getAllOwners();
+        return Response.success(200,
+                "Owners retrieve successfully",
+                "owners",
+                owners
+        );
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> owner(@Valid @PathVariable @Exists(entity = Owner.class, message = "Owner Not Found") Long id) {
-        return ResponseEntity.ok(service.getOwner(id));
+    public ResponseEntity<SuccessDTO> owner(
+            @Valid
+            @PathVariable
+            @Exists(entity = Owner.class, message = "Owner Not Found") Long id
+    ) {
+
+        ResponseDTO response = service.getOwner(id);
+
+        return Response.success(200,
+                " Owner retrieve successfully",
+                "owner",
+                response
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> edit(@PathVariable @Exists(entity = Owner.class, message = "Owner Not Found") Long id, @Valid @RequestBody UpdateDTO dto) {
-        return ResponseEntity.ok(service.editOwner(dto, id));
+    public ResponseEntity<SuccessDTO> edit(
+            @PathVariable
+            @Valid @Exists(entity = Owner.class, message = "Owner Not Found") Long id,
+            @RequestBody @Valid UpdateDTO dto
+    ) {
+
+        ResponseDTO response = service.editOwner(dto, id);
+        return Response.success(200,
+                "Owner updated successfully",
+                "owner",
+                response
+        );
     }
 
     @PostMapping("/new")
-    public ResponseEntity<ResponseDTO> add(@Valid @RequestBody CreateDTO dto) {
-        return ResponseEntity.ok(service.createOwner(dto));
+    public ResponseEntity<SuccessDTO> add(
+            @Valid @RequestBody CreateDTO dto
+    ) {
+
+        ResponseDTO response = service.createOwner(dto);
+        return Response.success(201,
+                "Owner Created successfully",
+                "owner",
+                response
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> delete(@PathVariable Long id) {
+    public ResponseEntity<SuccessDTO> delete(
+            @PathVariable
+            @Exists(entity = Owner.class, message = "Owner not found") Long id
+    ) {
         service.deleteOwner(id);
-        return ResponseEntity.ok(id);
+        return Response.success(200,
+                "Owner deleted successfully",
+                "deletedOwnerId",
+                id
+        );
     }
 }
