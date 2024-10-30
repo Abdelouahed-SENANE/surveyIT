@@ -6,7 +6,7 @@ import ma.youcode.surveyit.dto.owner.ResponseDTO;
 import ma.youcode.surveyit.dto.owner.UpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
-import ma.youcode.surveyit.util.annotations.interfaces.Exist;
+import ma.youcode.surveyit.util.annotations.interfaces.Exists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,25 +26,23 @@ public class OwnerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> owner(@Valid @PathVariable @Exist(entity = Owner.class , message = "Owner Not Found")  Long id) {
+    public ResponseEntity<ResponseDTO> owner(@Valid @PathVariable @Exists(entity = Owner.class, message = "Owner Not Found") Long id) {
         return ResponseEntity.ok(service.getOwner(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> edit(@PathVariable Long id , @Valid @RequestBody UpdateDTO dto){
-        service.editOwner(dto);
-        return ResponseEntity.ok("This " + dto.name() + "Updated Successfully");
+    public ResponseEntity<ResponseDTO> edit(@PathVariable @Exists(entity = Owner.class, message = "Owner Not Found") Long id, @Valid @RequestBody UpdateDTO dto) {
+        return ResponseEntity.ok(service.editOwner(dto, id));
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> add(@Valid @RequestBody CreateDTO dto){
-        service.createOwner(dto);
-        return ResponseEntity.ok("This " + dto.name() + "Added Successfully");
+    public ResponseEntity<ResponseDTO> add(@Valid @RequestBody CreateDTO dto) {
+        return ResponseEntity.ok(service.createOwner(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
         service.deleteOwner(id);
-        return ResponseEntity.ok("This " + id + "Deleted Successfully");
+        return ResponseEntity.ok(id);
     }
 }

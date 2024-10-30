@@ -24,15 +24,19 @@ public class OwnerServiceImp implements OwnerService {
     private OwnerMapper mapper;
 
     @Override
-    public void createOwner(CreateDTO dto) {
+    public ResponseDTO createOwner(CreateDTO dto) {
         Owner owner = mapper.toOwner(dto);
         repository.save(owner);
+        return mapper.toResponseDTO(owner);
     }
 
     @Override
-    public void editOwner(UpdateDTO dto) {
+    public ResponseDTO editOwner(UpdateDTO dto , Long id) {
         Owner owner = mapper.toOwner(dto);
+        owner.setId(id);
         repository.save(owner);
+        return mapper.toResponseDTO(owner);
+
     }
 
     @Override

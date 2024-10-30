@@ -1,56 +1,37 @@
 package ma.youcode.surveyit.util.annotations.implementations;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import ma.youcode.surveyit.entity.Owner;
-import ma.youcode.surveyit.entity.Survey;
-import ma.youcode.surveyit.repository.OwnerRepository;
-import ma.youcode.surveyit.repository.SurveyRepository;
-import ma.youcode.surveyit.util.annotations.interfaces.Exist;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
-import org.yaml.snakeyaml.tokens.Token;
+import ma.youcode.surveyit.util.annotations.interfaces.Exists;
 
-import java.util.HashMap;
-import java.util.Map;
+public class ExistValidator implements ConstraintValidator<Exists, Long> {
 
-public class ExistValidator implements ConstraintValidator<Exist, Long> {
-
-    @Autowired
-    private ApplicationContext appContext;
+    @PersistenceContext
+    private EntityManager manager;
 
     private Class<?> entityClass;
-    private static final Map<Class<?>, Class<? extends JpaRepository<?, ?>>> repositories = new HashMap<>();
 
-    static {
-        repositories.put(Owner.class , OwnerRepository.class);
-        repositories.put(Survey.class , SurveyRepository.class);
-    }
     @Override
-    public void initialize(Exist constraintAnnotation) {
+    public void initialize(Exists constraintAnnotation) {
         this.entityClass = constraintAnnotation.entity();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean isValid(Long id, ConstraintValidatorContext context) {
         if (id == null) {
-            return true;
+            return false;
         }
-        try {
 
-            Class<? extends JpaRepository<? , ?>> repositoryClass = repositories.get(entityClass);
-            if (repositoryClass == null) {
-                throw new IllegalArgumentException("No repository found for " + entityClass.getSimpleName());
-            }
+        boolean exists = manager.find(entityClass, id) != null;
 
-            JpaRepository<? , Long> repository = (JpaRepository<?, Long>) appContext.getBean(repositoryClass);
-            return repository.existsById(id);
-        }catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred while checking existence", e);
+        if(!exists){
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(entityClass.getSimpleName() + " not found with id " + id)
+                    .addConstraintViolation();
         }
+        return exists;
     }
 
 

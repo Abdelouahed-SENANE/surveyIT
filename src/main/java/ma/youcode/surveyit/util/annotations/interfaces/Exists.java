@@ -12,12 +12,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ExistValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD , ElementType.FIELD , ElementType.PARAMETER})
-public @interface Exist {
+public @interface Exists {
     String message() default "Entity does not exist";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default{};
-
     Class<?> entity();
 }

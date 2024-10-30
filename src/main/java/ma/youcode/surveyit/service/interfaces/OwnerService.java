@@ -12,8 +12,8 @@ import java.util.Set;
 public interface OwnerService {
     List<ResponseDTO> getAllOwners();
     ResponseDTO getOwner(Long id);
-    void createOwner(CreateDTO dto);
-    void editOwner(UpdateDTO dto);
+    ResponseDTO createOwner(CreateDTO dto);
+    ResponseDTO editOwner(UpdateDTO dto , Long id);
     void deleteOwner(Long id);
 
 
