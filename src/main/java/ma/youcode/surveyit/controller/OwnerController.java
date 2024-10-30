@@ -26,7 +26,7 @@ public class OwnerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> owner(@PathVariable @Exist(entity = Owner.class , message = "Owner Not Found")  Long id) {
+    public ResponseEntity<ResponseDTO> owner(@Valid @PathVariable @Exist(entity = Owner.class , message = "Owner Not Found")  Long id) {
         return ResponseEntity.ok(service.getOwner(id));
     }
 
