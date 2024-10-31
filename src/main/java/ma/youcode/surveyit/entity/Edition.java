@@ -28,7 +28,7 @@ public class Edition {
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
-    @Column(name = "edition_yean")
+    @Column(name = "edition_year")
     private int year;
 
     @OneToMany(mappedBy = "edition")

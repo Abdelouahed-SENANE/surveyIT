@@ -1,10 +1,11 @@
 package ma.youcode.surveyit.service.implementations;
 
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.edition.request.CreateDTO;
-import ma.youcode.surveyit.dto.edition.response.ResponseDTO;
-import ma.youcode.surveyit.dto.edition.request.UpdateDTO;
+import ma.youcode.surveyit.dto.request.EditionCreateDTO;
+import ma.youcode.surveyit.dto.request.EditionUpdateDTO;
+import ma.youcode.surveyit.dto.response.EditionResponseDTO;
 import ma.youcode.surveyit.entity.Edition;
+import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.mapper.EditionMapper;
 import ma.youcode.surveyit.repository.EditionRepository;
 import ma.youcode.surveyit.service.interfaces.EditionService;
@@ -24,19 +25,19 @@ public class EditionServiceImp implements EditionService {
 
     @Override
     @Transactional
-    public ResponseDTO createEdition(CreateDTO dto) {
+    public EditionResponseDTO createEdition(EditionCreateDTO dto) {
 
-//        Survey owner = surveyService.getOwnerEntity(dto.surveyId());
+        Survey survey = surveyService.getSurveyEntity(dto.surveyId());
 
         Edition edition = mapper.toEdition(dto);
-//        edition.setOwner(owner);
+        edition.setSurvey(survey);
 
         return mapper.toResponseDTO(repository.save(edition));
 
     }
 
     @Override
-    public ResponseDTO editEdition(UpdateDTO dto , Long id) {
+    public EditionResponseDTO editEdition(EditionUpdateDTO dto , Long id) {
 
         Edition edition = mapper.toEdition(dto);
         edition.setId(id);
@@ -50,7 +51,7 @@ public class EditionServiceImp implements EditionService {
     }
 
     @Override
-    public List<ResponseDTO> getAllEditions() {
+    public List<EditionResponseDTO> getAllEditions() {
 
         return repository.findAll().stream()
                 .map(mapper::toResponseDTO).toList();
@@ -58,7 +59,7 @@ public class EditionServiceImp implements EditionService {
     }
 
     @Override
-    public ResponseDTO getEdition(Long id) {
+    public EditionResponseDTO getEdition(Long id) {
         Edition edition = repository.findById(id).orElse(null);
         return mapper.toResponseDTO(edition);
     }

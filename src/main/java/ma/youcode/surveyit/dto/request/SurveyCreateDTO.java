@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.survey.request;
+package ma.youcode.surveyit.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import ma.youcode.surveyit.entity.Survey;
 
 import java.io.Serializable;
 
-public record CreateDTO(
+public record SurveyCreateDTO(
         @NotEmpty @Unique(field = "title" , entity = Survey.class) String title ,
         @NotEmpty String description,
         @NotNull @Exists(entity = Owner.class , message = "Owner not found.") Long ownerId

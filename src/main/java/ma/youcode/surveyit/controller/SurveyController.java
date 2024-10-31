@@ -2,10 +2,10 @@ package ma.youcode.surveyit.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.SuccessDTO;
-import ma.youcode.surveyit.dto.survey.request.CreateDTO;
-import ma.youcode.surveyit.dto.survey.response.ResponseDTO;
-import ma.youcode.surveyit.dto.survey.request.UpdateDTO;
+import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
+import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
 import ma.youcode.surveyit.util.Response;
@@ -23,9 +23,9 @@ public class SurveyController {
     private final SurveyService service;
 
     @GetMapping
-    public ResponseEntity<SuccessDTO> surveys() {
+    public ResponseEntity<SuccessResponseDTO> surveys() {
 
-        List<ResponseDTO> surveys = service.getAllSurveys();
+        List<SurveyResponseDTO> surveys = service.getAllSurveys();
         return Response.success(200,
                 "Surveys retrieve successfully",
                 "surveys",
@@ -35,13 +35,13 @@ public class SurveyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessDTO> survey(
+    public ResponseEntity<SuccessResponseDTO> survey(
             @Valid
             @PathVariable
             @Exists(entity = Survey.class, message = "Survey Not Found") Long id
     ) {
 
-        ResponseDTO response = service.getSurvey(id);
+        SurveyResponseDTO response = service.getSurvey(id);
 
         return Response.success(200,
                 " Survey retrieve successfully",
@@ -51,13 +51,15 @@ public class SurveyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SuccessDTO> edit(
+    public ResponseEntity<SuccessResponseDTO> edit(
+            @Valid
             @PathVariable
-            @Valid @Exists(entity = Survey.class, message = "Survey Not Found") Long id,
-            @RequestBody @Valid UpdateDTO dto
+            @Exists(entity = Survey.class, message = "Survey Not Found") Long id,
+            @Valid
+            @RequestBody SurveyUpdateDTO dto
     ) {
 
-        ResponseDTO response = service.editSurvey(dto, id);
+        SurveyResponseDTO response = service.editSurvey(dto, id);
         return Response.success(200,
                 "Survey updated successfully",
                 "survey",
@@ -66,11 +68,11 @@ public class SurveyController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<SuccessDTO> add(
-            @Valid @RequestBody CreateDTO dto
+    public ResponseEntity<SuccessResponseDTO> add(
+            @Valid @RequestBody SurveyCreateDTO dto
     ) {
 
-        ResponseDTO response = service.createSurvey(dto);
+        SurveyResponseDTO response = service.createSurvey(dto);
         return Response.success(201,
                 "Survey Created successfully",
                 "survey",
@@ -79,7 +81,7 @@ public class SurveyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SuccessDTO> delete(
+    public ResponseEntity<SuccessResponseDTO> delete(
             @PathVariable
             @Exists(entity = Survey.class, message = "Survey not found") Long id
     ) {

@@ -2,10 +2,10 @@ package ma.youcode.surveyit.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.SuccessDTO;
-import ma.youcode.surveyit.dto.owner.request.CreateDTO;
-import ma.youcode.surveyit.dto.owner.response.ResponseDTO;
-import ma.youcode.surveyit.dto.owner.request.UpdateDTO;
+import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.request.OwnerCreateDTO;
+import ma.youcode.surveyit.dto.response.OwnerResponseDTO;
+import ma.youcode.surveyit.dto.request.OwnerUpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.util.Response;
@@ -23,9 +23,9 @@ public class OwnerController {
     private final OwnerService service;
 
     @GetMapping
-    public ResponseEntity<SuccessDTO> owners() {
+    public ResponseEntity<SuccessResponseDTO> owners() {
 
-        List<ResponseDTO> owners = service.getAllOwners();
+        List<OwnerResponseDTO> owners = service.getAllOwners();
         return Response.success(200,
                 "Owners retrieve successfully",
                 "owners",
@@ -35,13 +35,13 @@ public class OwnerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessDTO> owner(
+    public ResponseEntity<SuccessResponseDTO> owner(
             @Valid
             @PathVariable
             @Exists(entity = Owner.class, message = "Owner Not Found") Long id
     ) {
 
-        ResponseDTO response = service.getOwner(id);
+        OwnerResponseDTO response = service.getOwner(id);
         System.out.println(response.surveys().toString());
         return Response.success(200,
                 " Owner retrieve successfully",
@@ -51,13 +51,13 @@ public class OwnerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SuccessDTO> edit(
+    public ResponseEntity<SuccessResponseDTO> edit(
             @PathVariable
             @Valid @Exists(entity = Owner.class, message = "Owner Not Found") Long id,
-            @RequestBody @Valid UpdateDTO dto
+            @RequestBody @Valid OwnerUpdateDTO dto
     ) {
 
-        ResponseDTO response = service.editOwner(dto, id);
+        OwnerResponseDTO response = service.editOwner(dto, id);
         return Response.success(200,
                 "Owner updated successfully",
                 "owner",
@@ -66,11 +66,11 @@ public class OwnerController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<SuccessDTO> add(
-            @Valid @RequestBody CreateDTO dto
+    public ResponseEntity<SuccessResponseDTO> add(
+            @Valid @RequestBody OwnerCreateDTO dto
     ) {
 
-        ResponseDTO response = service.createOwner(dto);
+        OwnerResponseDTO response = service.createOwner(dto);
         return Response.success(201,
                 "Owner Created successfully",
                 "owner",
@@ -79,7 +79,7 @@ public class OwnerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SuccessDTO> delete(
+    public ResponseEntity<SuccessResponseDTO> delete(
             @PathVariable
             @Exists(entity = Owner.class, message = "Owner not found") Long id
     ) {

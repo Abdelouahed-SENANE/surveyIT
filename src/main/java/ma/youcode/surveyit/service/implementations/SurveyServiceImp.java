@@ -2,9 +2,9 @@ package ma.youcode.surveyit.service.implementations;
 
 import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.survey.request.CreateDTO;
-import ma.youcode.surveyit.dto.survey.response.ResponseDTO;
-import ma.youcode.surveyit.dto.survey.request.UpdateDTO;
+import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
+import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.exception.EntityNotFoundException;
@@ -27,7 +27,7 @@ public class SurveyServiceImp implements SurveyService {
 
     @Override
     @Transactional
-    public ResponseDTO createSurvey(CreateDTO dto) {
+    public SurveyResponseDTO createSurvey(SurveyCreateDTO dto) {
 
         Owner owner = ownerService.getOwnerEntity(dto.ownerId());
 
@@ -39,7 +39,7 @@ public class SurveyServiceImp implements SurveyService {
     }
 
     @Override
-    public ResponseDTO editSurvey(UpdateDTO dto , Long id) {
+    public SurveyResponseDTO editSurvey(SurveyUpdateDTO dto , Long id) {
 
         if (isTaken(dto.title() , id)) {
             throw new EntityExistsException("A survey with the title '" + dto.title() + "' already exists. Please choose a different title.");
@@ -57,7 +57,7 @@ public class SurveyServiceImp implements SurveyService {
     }
 
     @Override
-    public List<ResponseDTO> getAllSurveys() {
+    public List<SurveyResponseDTO> getAllSurveys() {
 
         return repository.findAll().stream()
                 .map(mapper::toResponseDTO).toList();
@@ -65,7 +65,7 @@ public class SurveyServiceImp implements SurveyService {
     }
 
     @Override
-    public ResponseDTO getSurvey(Long id) {
+    public SurveyResponseDTO getSurvey(Long id) {
         Survey survey = repository.findById(id).orElse(null);
         return mapper.toResponseDTO(survey);
     }

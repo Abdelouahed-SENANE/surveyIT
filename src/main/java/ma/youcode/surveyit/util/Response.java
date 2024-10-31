@@ -1,8 +1,7 @@
 package ma.youcode.surveyit.util;
 
-import ma.youcode.surveyit.dto.ErrorDTO;
-import ma.youcode.surveyit.dto.SuccessDTO;
-import org.springframework.http.HttpStatus;
+import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.response.ErrorResponseDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
@@ -11,10 +10,10 @@ import java.util.Map;
 
 public class Response {
 
-    public static ResponseEntity<SuccessDTO> success(int status, String message, String key, Object value) {
+    public static ResponseEntity<SuccessResponseDTO> success(int status, String message, String key, Object value) {
         Map<String, Object> payload = new HashMap<>();
         payload.put(key, value);
-        return ResponseEntity.status(status).body((new SuccessDTO(
+        return ResponseEntity.status(status).body((new SuccessResponseDTO(
                 status,
                 message,
                 payload,
@@ -23,8 +22,8 @@ public class Response {
 
     }
 
-    public static ResponseEntity<ErrorDTO> error(int status, String message, LocalDateTime timestamp) {
-        return ResponseEntity.status(status).body((new ErrorDTO(
+    public static ResponseEntity<ErrorResponseDTO> error(int status, String message, LocalDateTime timestamp) {
+        return ResponseEntity.status(status).body((new ErrorResponseDTO(
                 status,
                 message,
                 timestamp
@@ -32,11 +31,11 @@ public class Response {
 
     }
 
-    public static ResponseEntity<ErrorDTO> error(int status,
-                                                 String message,
-                                                 LocalDateTime timestamp,
-                                                 Map<String, String> errors) {
-        return ResponseEntity.status(status).body((new ErrorDTO(
+    public static ResponseEntity<ErrorResponseDTO> error(int status,
+                                                         String message,
+                                                         LocalDateTime timestamp,
+                                                         Map<String, String> errors) {
+        return ResponseEntity.status(status).body((new ErrorResponseDTO(
                 status,
                 message,
                 timestamp,

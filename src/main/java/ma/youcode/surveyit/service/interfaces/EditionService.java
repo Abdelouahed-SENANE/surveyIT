@@ -1,16 +1,16 @@
 package ma.youcode.surveyit.service.interfaces;
 
-import ma.youcode.surveyit.dto.edition.request.CreateDTO;
-import ma.youcode.surveyit.dto.edition.response.ResponseDTO;
-import ma.youcode.surveyit.dto.edition.request.UpdateDTO;
+import ma.youcode.surveyit.dto.request.EditionCreateDTO;
+import ma.youcode.surveyit.dto.request.EditionUpdateDTO;
+import ma.youcode.surveyit.dto.response.EditionResponseDTO;
 
 import java.util.List;
 
 public interface EditionService {
-    List<ResponseDTO> getAllEditions();
-    ResponseDTO getEdition(Long id);
-    ResponseDTO createEdition(CreateDTO dto);
-    ResponseDTO editEdition(UpdateDTO dto , Long id);
+    List<EditionResponseDTO> getAllEditions();
+    EditionResponseDTO getEdition(Long id);
+    EditionResponseDTO createEdition(EditionCreateDTO dto);
+    EditionResponseDTO editEdition(EditionUpdateDTO dto , Long id);
     void deleteEdition(Long id);
 
 

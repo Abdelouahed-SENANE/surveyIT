@@ -1,14 +1,12 @@
-package ma.youcode.surveyit.dto.survey.response;
-
-import ma.youcode.surveyit.dto.owner.response.EmbeddedDTO;
+package ma.youcode.surveyit.dto.response;
 
 import java.io.Serializable;
 
 
-public record ResponseDTO(
+public record SurveyResponseDTO(
                           Long id,
                           String title,
                           String description,
-                          EmbeddedDTO owner
+                          OwnerEmbeddedDTO owner
 ) implements Serializable {
 }

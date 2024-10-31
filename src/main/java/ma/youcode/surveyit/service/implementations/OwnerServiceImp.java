@@ -1,9 +1,9 @@
 package ma.youcode.surveyit.service.implementations;
 
 import jakarta.persistence.EntityNotFoundException;
-import ma.youcode.surveyit.dto.owner.request.CreateDTO;
-import ma.youcode.surveyit.dto.owner.response.ResponseDTO;
-import ma.youcode.surveyit.dto.owner.request.UpdateDTO;
+import ma.youcode.surveyit.dto.request.OwnerCreateDTO;
+import ma.youcode.surveyit.dto.request.OwnerUpdateDTO;
+import ma.youcode.surveyit.dto.response.OwnerResponseDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.mapper.OwnerMapper;
 import ma.youcode.surveyit.repository.OwnerRepository;
@@ -22,14 +22,14 @@ public class OwnerServiceImp implements OwnerService {
     private OwnerMapper mapper;
 
     @Override
-    public ResponseDTO createOwner(CreateDTO dto) {
+    public OwnerResponseDTO createOwner(OwnerCreateDTO dto) {
         Owner owner = mapper.toOwner(dto);
         repository.save(owner);
         return mapper.toResponseDTO(owner);
     }
 
     @Override
-    public ResponseDTO editOwner(UpdateDTO dto , Long id) {
+    public OwnerResponseDTO editOwner(OwnerUpdateDTO dto , Long id) {
         Owner owner = mapper.toOwner(dto);
         owner.setId(id);
         repository.save(owner);
@@ -43,7 +43,7 @@ public class OwnerServiceImp implements OwnerService {
     }
 
     @Override
-    public List<ResponseDTO> getAllOwners() {
+    public List<OwnerResponseDTO> getAllOwners() {
 
         return repository.findAll().stream()
                 .map(mapper::toResponseDTO).toList();
@@ -51,7 +51,7 @@ public class OwnerServiceImp implements OwnerService {
     }
 
     @Override
-    public ResponseDTO getOwner(Long id) {
+    public OwnerResponseDTO getOwner(Long id) {
         Owner owner = repository.findById(id).orElse(null);
         return mapper.toResponseDTO(owner);
     }

@@ -1,9 +1,9 @@
 package ma.youcode.surveyit.mapper;
 
-import ma.youcode.surveyit.dto.survey.request.CreateDTO;
-import ma.youcode.surveyit.dto.survey.response.EmbeddedDTO;
-import ma.youcode.surveyit.dto.survey.response.ResponseDTO;
-import ma.youcode.surveyit.dto.survey.request.UpdateDTO;
+import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
+import ma.youcode.surveyit.dto.response.SurveyEmbeddedDTO;
+import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
 import ma.youcode.surveyit.entity.Survey;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,13 +11,13 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface SurveyMapper {
 
-    ResponseDTO toResponseDTO(Survey survey);
-    EmbeddedDTO toEmbeddedDTO(Survey survey);
+    SurveyResponseDTO toResponseDTO(Survey survey);
+    SurveyEmbeddedDTO toEmbeddedDTO(Survey survey);
 
     @Mapping(source = "ownerId" , target = "owner.id")
-    Survey toSurvey(CreateDTO dto);
+    Survey toSurvey(SurveyCreateDTO dto);
     @Mapping(source = "ownerId" , target = "owner.id")
-    Survey toSurvey(UpdateDTO dto);
+    Survey toSurvey(SurveyUpdateDTO dto);
 
 
 }

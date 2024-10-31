@@ -1,6 +1,6 @@
 package ma.youcode.surveyit.exception;
 
-import ma.youcode.surveyit.dto.ErrorDTO;
+import ma.youcode.surveyit.dto.response.ErrorResponseDTO;
 import ma.youcode.surveyit.repository.SurveyRepository;
 import ma.youcode.surveyit.util.Response;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDTO> handleGenericException(Exception e) {
+    public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception e) {
 
         logger.error("An unexpected error occurred: {}", e.getMessage(), e);
         return Response.error(400 , e.getMessage() , LocalDateTime.now());
@@ -36,7 +36,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorDTO> handleValidationException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponseDTO> handleValidationException(MethodArgumentNotValidException e) {
         Map<String , String> errors = new HashMap<>();
 
         e.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -47,12 +47,12 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ErrorDTO handleEntityNotFoundException(EntityNotFoundException ex) {
-        return new ErrorDTO(404, ex.getMessage(), LocalDateTime.now());
+    public ErrorResponseDTO handleEntityNotFoundException(EntityNotFoundException ex) {
+        return new ErrorResponseDTO(404, ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
-    public ResponseEntity<ErrorDTO> HandlerMethodValidationException(HandlerMethodValidationException e) {
+    public ResponseEntity<ErrorResponseDTO> HandlerMethodValidationException(HandlerMethodValidationException e) {
 
         String responseMessage = e.getAllValidationResults().stream()
                 .map(result -> {
