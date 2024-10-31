@@ -1,8 +1,6 @@
-package ma.youcode.surveyit.dto.survey;
+package ma.youcode.surveyit.dto.survey.response;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import ma.youcode.surveyit.dto.owner.EmbeddedDTO;
+import ma.youcode.surveyit.dto.owner.response.EmbeddedDTO;
 
 import java.io.Serializable;
 

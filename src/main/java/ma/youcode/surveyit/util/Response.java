@@ -32,5 +32,18 @@ public class Response {
 
     }
 
+    public static ResponseEntity<ErrorDTO> error(int status,
+                                                 String message,
+                                                 LocalDateTime timestamp,
+                                                 Map<String, String> errors) {
+        return ResponseEntity.status(status).body((new ErrorDTO(
+                status,
+                message,
+                timestamp,
+                errors
+        )));
+
+    }
+
 
 }

@@ -1,12 +1,11 @@
-package ma.youcode.surveyit.annotations.implementations;
+package ma.youcode.surveyit.annotation.implementations;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import ma.youcode.surveyit.annotations.interfaces.Exists;
-import ma.youcode.surveyit.annotations.interfaces.Unique;
+import ma.youcode.surveyit.annotation.interfaces.Unique;
 
 public class UniqueImp implements ConstraintValidator<Unique, String> {
 
@@ -28,9 +27,11 @@ public class UniqueImp implements ConstraintValidator<Unique, String> {
             return true;
         }
 
-        String jpql = "SELECT COUNT(e) " + entityClass.getSimpleName() + " e WHERE e." + field + " = :value";
+        String jpql = "SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e WHERE LOWER(e." + field + ") = LOWER(:value)";
+
         TypedQuery<Long> query = manager.createQuery(jpql , Long.class);
         query.setParameter("value" , value);
+
         Long count = query.getSingleResult();
 
         return count == 0;

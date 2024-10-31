@@ -1,7 +1,4 @@
-package ma.youcode.surveyit.dto.survey;
-
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+package ma.youcode.surveyit.dto.survey.response;
 
 import java.io.Serializable;
 

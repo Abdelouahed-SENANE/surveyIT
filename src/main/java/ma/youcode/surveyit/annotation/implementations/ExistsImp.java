@@ -1,10 +1,10 @@
-package ma.youcode.surveyit.annotations.implementations;
+package ma.youcode.surveyit.annotation.implementations;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import ma.youcode.surveyit.annotations.interfaces.Exists;
+import ma.youcode.surveyit.annotation.interfaces.Exists;
 
 public class ExistsImp implements ConstraintValidator<Exists, Long> {
 

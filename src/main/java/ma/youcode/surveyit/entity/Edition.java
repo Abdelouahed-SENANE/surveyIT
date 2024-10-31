@@ -2,12 +2,19 @@ package ma.youcode.surveyit.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "editions")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Edition {
 
     @Id
@@ -22,7 +29,7 @@ public class Edition {
     private LocalDateTime startDate;
 
     @Column(name = "edition_yean")
-    private LocalDateTime year;
+    private int year;
 
     @OneToMany(mappedBy = "edition")
     private Set<Subject> subjects;

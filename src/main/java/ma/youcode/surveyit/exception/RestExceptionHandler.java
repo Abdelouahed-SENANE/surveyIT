@@ -1,7 +1,6 @@
 package ma.youcode.surveyit.exception;
 
 import ma.youcode.surveyit.dto.ErrorDTO;
-import ma.youcode.surveyit.dto.ValidationDTO;
 import ma.youcode.surveyit.repository.SurveyRepository;
 import ma.youcode.surveyit.util.Response;
 import org.slf4j.LoggerFactory;
@@ -37,19 +36,14 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ValidationDTO> handleValidationException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorDTO> handleValidationException(MethodArgumentNotValidException e) {
         Map<String , String> errors = new HashMap<>();
 
         e.getBindingResult().getFieldErrors().forEach(fieldError -> {
             errors.put(fieldError.getField(),  fieldError.getDefaultMessage());
         });
 
-        ValidationDTO errorResponse = new ValidationDTO
-                (400,
-                         errors,
-                        LocalDateTime.now());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return Response.error(400 , "Validations errors" , LocalDateTime.now() , errors);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

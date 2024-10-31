@@ -1,10 +1,10 @@
 package ma.youcode.surveyit.service.implementations;
 
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.survey.CreateDTO;
-import ma.youcode.surveyit.dto.survey.ResponseDTO;
-import ma.youcode.surveyit.dto.survey.UpdateDTO;
+import ma.youcode.surveyit.dto.survey.request.CreateDTO;
+import ma.youcode.surveyit.dto.survey.response.ResponseDTO;
+import ma.youcode.surveyit.dto.survey.request.UpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.exception.EntityNotFoundException;
@@ -12,12 +12,10 @@ import ma.youcode.surveyit.mapper.SurveyMapper;
 import ma.youcode.surveyit.repository.SurveyRepository;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
@@ -35,14 +33,17 @@ public class SurveyServiceImp implements SurveyService {
 
         Survey survey = mapper.toSurvey(dto);
         survey.setOwner(owner);
-        repository.save(survey);
 
-        return mapper.toResponseDTO(survey);
+        return mapper.toResponseDTO(repository.save(survey));
 
     }
 
     @Override
     public ResponseDTO editSurvey(UpdateDTO dto , Long id) {
+
+        if (isTaken(dto.title() , id)) {
+            throw new EntityExistsException("A survey with the title '" + dto.title() + "' already exists. Please choose a different title.");
+        }
 
         Survey survey = mapper.toSurvey(dto);
         survey.setId(id);
@@ -69,5 +70,12 @@ public class SurveyServiceImp implements SurveyService {
         return mapper.toResponseDTO(survey);
     }
 
+    private boolean isTaken(String title , Long id) {
+        return repository.existsByTitleNotId(title , id);
+    }
 
+    @Override
+    public Survey getSurveyEntity(Long id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Survey not found."));
+    }
 }

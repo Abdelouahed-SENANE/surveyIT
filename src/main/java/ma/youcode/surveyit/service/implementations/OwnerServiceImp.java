@@ -1,9 +1,9 @@
 package ma.youcode.surveyit.service.implementations;
 
 import jakarta.persistence.EntityNotFoundException;
-import ma.youcode.surveyit.dto.owner.CreateDTO;
-import ma.youcode.surveyit.dto.owner.ResponseDTO;
-import ma.youcode.surveyit.dto.owner.UpdateDTO;
+import ma.youcode.surveyit.dto.owner.request.CreateDTO;
+import ma.youcode.surveyit.dto.owner.response.ResponseDTO;
+import ma.youcode.surveyit.dto.owner.request.UpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.mapper.OwnerMapper;
 import ma.youcode.surveyit.repository.OwnerRepository;
@@ -11,10 +11,7 @@ import ma.youcode.surveyit.service.interfaces.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OwnerServiceImp implements OwnerService {

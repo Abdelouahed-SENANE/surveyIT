@@ -1,6 +1,6 @@
-package ma.youcode.surveyit.dto.edition;
+package ma.youcode.surveyit.dto.edition.response;
 
-import ma.youcode.surveyit.dto.survey.EmbeddedDTO;
+import ma.youcode.surveyit.dto.survey.response.EmbeddedDTO;
 
 import java.io.Serializable;
 

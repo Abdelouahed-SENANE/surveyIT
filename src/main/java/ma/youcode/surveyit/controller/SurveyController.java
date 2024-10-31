@@ -3,13 +3,13 @@ package ma.youcode.surveyit.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.youcode.surveyit.dto.SuccessDTO;
-import ma.youcode.surveyit.dto.survey.CreateDTO;
-import ma.youcode.surveyit.dto.survey.ResponseDTO;
-import ma.youcode.surveyit.dto.survey.UpdateDTO;
+import ma.youcode.surveyit.dto.survey.request.CreateDTO;
+import ma.youcode.surveyit.dto.survey.response.ResponseDTO;
+import ma.youcode.surveyit.dto.survey.request.UpdateDTO;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
 import ma.youcode.surveyit.util.Response;
-import ma.youcode.surveyit.annotations.interfaces.Exists;
+import ma.youcode.surveyit.annotation.interfaces.Exists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

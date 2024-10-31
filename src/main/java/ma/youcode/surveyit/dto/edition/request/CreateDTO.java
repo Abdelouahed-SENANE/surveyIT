@@ -1,11 +1,11 @@
-package ma.youcode.surveyit.dto.edition;
+package ma.youcode.surveyit.dto.edition.request;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ma.youcode.surveyit.entity.Survey;
-import ma.youcode.surveyit.annotations.interfaces.Exists;
+import ma.youcode.surveyit.annotation.interfaces.Exists;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
