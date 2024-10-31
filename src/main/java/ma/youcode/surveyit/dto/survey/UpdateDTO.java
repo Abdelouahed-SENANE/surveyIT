@@ -9,13 +9,13 @@ import java.io.Serializable;
 
 public record UpdateDTO
         (
-                @Exists(message = "Survey Not Found" , entity = Survey.class)
-                @NotNull
                 Long id,
                 @NotEmpty
                 String title,
                 @NotEmpty
-                String desc
+                String description,
+                @NotNull
+                Long ownerId
         )
 
         implements Serializable {

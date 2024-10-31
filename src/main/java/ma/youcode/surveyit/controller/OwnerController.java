@@ -48,7 +48,7 @@ public class OwnerController {
     ) {
 
         ResponseDTO response = service.getOwner(id);
-
+        System.out.println(response.surveys().toString());
         return Response.success(200,
                 " Owner retrieve successfully",
                 "owner",

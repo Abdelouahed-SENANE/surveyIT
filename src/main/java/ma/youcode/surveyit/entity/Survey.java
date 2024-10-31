@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,7 +31,7 @@ public class Survey {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @OneToMany(mappedBy = "survey")
-    private Set<SurveyEdition> surveyEditions;
+    @OneToMany(mappedBy = "survey" , fetch = FetchType.EAGER)
+    private List<SurveyEdition> surveyEditions;
 
 }

@@ -3,6 +3,7 @@ package ma.youcode.surveyit.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class Owner {
     @Column(name = "owner_name")
     private String name;
 
-    @OneToMany
-    private List<Survey> survey;
+    @OneToMany(mappedBy = "owner" , fetch = FetchType.EAGER)
+    private List<Survey> surveys = new ArrayList<>();
 
 }
