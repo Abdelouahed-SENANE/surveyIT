@@ -1,5 +1,6 @@
 package ma.youcode.surveyit.service.implementations;
 
+import jakarta.persistence.EntityNotFoundException;
 import ma.youcode.surveyit.dto.owner.CreateDTO;
 import ma.youcode.surveyit.dto.owner.ResponseDTO;
 import ma.youcode.surveyit.dto.owner.UpdateDTO;
@@ -58,5 +59,8 @@ public class OwnerServiceImp implements OwnerService {
         return mapper.toResponseDTO(owner);
     }
 
-
+    @Override
+    public Owner getOwnerEntity(Long id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Owner not found."));
+    }
 }

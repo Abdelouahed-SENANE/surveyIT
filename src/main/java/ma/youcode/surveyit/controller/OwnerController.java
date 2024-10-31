@@ -9,17 +9,11 @@ import ma.youcode.surveyit.dto.owner.UpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.util.Response;
-import ma.youcode.surveyit.util.annotations.interfaces.Exists;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import ma.youcode.surveyit.annotations.interfaces.Exists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/owners")
@@ -92,7 +86,7 @@ public class OwnerController {
         service.deleteOwner(id);
         return Response.success(200,
                 "Owner deleted successfully",
-                "deletedOwnerId",
+                "ownerId",
                 id
         );
     }

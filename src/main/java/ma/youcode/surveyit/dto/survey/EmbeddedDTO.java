@@ -5,11 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
-public record EmbeddedDTO(@NotNull
+public record EmbeddedDTO(
                             Long id,
-                          @NotEmpty
                             String title,
-                          @NotEmpty
                             String description
 ) implements Serializable {
 }

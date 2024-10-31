@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "survey_editions")
-public class SurveyEdition {
+@Table(name = "editions")
+public class Edition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "survey_edition_id")
+    @Column(name = "edition_id")
     private Long id;
 
     @Column(name = "creation_date")
@@ -21,10 +21,10 @@ public class SurveyEdition {
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
-    @Column(name = "year_edition")
+    @Column(name = "edition_yean")
     private LocalDateTime year;
 
-    @OneToMany(mappedBy = "surveyEdition")
+    @OneToMany(mappedBy = "edition")
     private Set<Subject> subjects;
 
     @ManyToOne

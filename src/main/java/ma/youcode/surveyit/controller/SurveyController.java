@@ -9,7 +9,7 @@ import ma.youcode.surveyit.dto.survey.UpdateDTO;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
 import ma.youcode.surveyit.util.Response;
-import ma.youcode.surveyit.util.annotations.interfaces.Exists;
+import ma.youcode.surveyit.annotations.interfaces.Exists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,7 +86,7 @@ public class SurveyController {
         service.deleteSurvey(id);
         return Response.success(200,
                 "Survey deleted successfully",
-                "deletedSurveyId",
+                "surveyId",
                 id
         );
     }

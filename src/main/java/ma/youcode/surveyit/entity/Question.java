@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ma.youcode.surveyit.util.enums.QuestionType;
+import ma.youcode.surveyit.enums.QuestionType;
 
 import java.util.Set;
 
@@ -33,6 +33,7 @@ public class Question {
     private int answerCount;
 
     @ManyToOne
+    @JoinColumn(name = "subject_id")
     private Subject subject;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)

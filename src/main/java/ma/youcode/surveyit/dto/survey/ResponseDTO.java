@@ -7,13 +7,10 @@ import ma.youcode.surveyit.dto.owner.EmbeddedDTO;
 import java.io.Serializable;
 
 
-public record ResponseDTO(@NotNull
+public record ResponseDTO(
                           Long id,
-                          @NotEmpty
                           String title,
-                          @NotEmpty
                           String description,
-                          @NotNull
                           EmbeddedDTO owner
 ) implements Serializable {
 }

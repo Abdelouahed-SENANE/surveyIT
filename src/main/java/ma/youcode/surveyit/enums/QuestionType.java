@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.util.enums;
+package ma.youcode.surveyit.enums;
 
 import lombok.Getter;
 

@@ -10,6 +10,7 @@ import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.SurveyMapper;
 import ma.youcode.surveyit.repository.SurveyRepository;
+import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,21 @@ import java.util.logging.Logger;
 public class SurveyServiceImp implements SurveyService {
 
     private final SurveyRepository repository;
-    private final EntityManager manager;
     private final SurveyMapper mapper;
+    private final OwnerService ownerService;
 
     @Override
     @Transactional
     public ResponseDTO createSurvey(CreateDTO dto) {
 
+        Owner owner = ownerService.getOwnerEntity(dto.ownerId());
+
         Survey survey = mapper.toSurvey(dto);
+        survey.setOwner(owner);
         repository.save(survey);
-        manager.refresh(survey);
+
         return mapper.toResponseDTO(survey);
+
     }
 
     @Override

@@ -3,7 +3,7 @@ package ma.youcode.surveyit.dto.survey;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ma.youcode.surveyit.entity.Owner;
-import ma.youcode.surveyit.util.annotations.interfaces.Exists;
+import ma.youcode.surveyit.annotations.interfaces.Exists;
 
 import java.io.Serializable;
 

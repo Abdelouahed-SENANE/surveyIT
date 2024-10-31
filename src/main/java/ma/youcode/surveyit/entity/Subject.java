@@ -31,8 +31,8 @@ public class Subject {
     private Set<Subject> subSubjects;
 
     @ManyToOne
-    @JoinColumn(name = "survey_edition_id")
-    private SurveyEdition surveyEdition;
+    @JoinColumn(name = "edition_id")
+    private Edition edition;
 
     @OneToMany(mappedBy = "subject" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private Set<Question> questions;

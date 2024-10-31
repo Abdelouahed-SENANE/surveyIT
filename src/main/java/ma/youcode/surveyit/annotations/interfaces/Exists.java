@@ -1,15 +1,15 @@
-package ma.youcode.surveyit.util.annotations.interfaces;
+package ma.youcode.surveyit.annotations.interfaces;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import ma.youcode.surveyit.util.annotations.implementations.ExistValidator;
+import ma.youcode.surveyit.annotations.implementations.ExistsImp;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = ExistValidator.class)
+@Constraint(validatedBy = ExistsImp.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD , ElementType.FIELD , ElementType.PARAMETER})
 public @interface Exists {

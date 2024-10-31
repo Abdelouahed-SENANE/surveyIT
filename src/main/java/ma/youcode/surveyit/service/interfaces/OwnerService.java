@@ -15,7 +15,7 @@ public interface OwnerService {
     ResponseDTO createOwner(CreateDTO dto);
     ResponseDTO editOwner(UpdateDTO dto , Long id);
     void deleteOwner(Long id);
-
+    Owner getOwnerEntity(Long id);
 
 
 }

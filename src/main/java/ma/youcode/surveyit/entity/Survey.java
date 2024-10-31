@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "surveys")
@@ -32,6 +31,6 @@ public class Survey {
     private Owner owner;
 
     @OneToMany(mappedBy = "survey" , fetch = FetchType.EAGER)
-    private List<SurveyEdition> surveyEditions;
+    private List<Edition> editions;
 
 }
