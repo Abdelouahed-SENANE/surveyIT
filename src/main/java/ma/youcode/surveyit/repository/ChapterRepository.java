@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {
 
-    @Query("SELECT c FROM Chapter c WHERE c.chapterId IS NULL")
-    List<Chapter> findAllChapters();
+    @Query("SELECT c FROM Chapter c WHERE c.parentId IS NULL")
+    List<Chapter> findAllByChapterIdIsNull();
 
-    @Query("SELECT c FROM Chapter c WHERE c.chapterId IS NOT NULL ")
-    List<Chapter> findAllSubChapters();
+//    @Query("SELECT c FROM Chapter c WHERE c.chapterId IS NOT NULL ")
+//    List<Chapter> findAllSubChapters();
 }

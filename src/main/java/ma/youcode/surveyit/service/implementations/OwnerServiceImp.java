@@ -52,8 +52,7 @@ public class OwnerServiceImp implements OwnerService {
 
     @Override
     public OwnerResponseDTO getOwner(Long id) {
-        Owner owner = repository.findById(id).orElse(null);
-        return mapper.toResponseDTO(owner);
+        return mapper.toResponseDTO(repository.findById(id).get());
     }
 
     @Override

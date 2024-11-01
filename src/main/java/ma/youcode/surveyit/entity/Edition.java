@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,8 +32,8 @@ public class Edition {
     @Column(name = "edition_year")
     private int year;
 
-    @OneToMany(mappedBy = "edition")
-    private Set<Chapter> chapters;
+    @OneToMany(mappedBy = "edition" , fetch = FetchType.EAGER)
+    private List<Chapter> chapters;
 
     @ManyToOne
     @JoinColumn(name = "survey_id")

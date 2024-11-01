@@ -34,7 +34,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "chapter_id")
-    private Chapter chapter;
+    private Chapter subchapter;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     private Set<Answer> answers;

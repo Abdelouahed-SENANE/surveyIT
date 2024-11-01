@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.request.chapter;
+package ma.youcode.surveyit.dto.request.answer;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import ma.youcode.surveyit.entity.Edition;
 
 import java.io.Serializable;
 
-public record ChapterUpdateDTO
+public record AnswerUpdateDTO
         (
                 @NotEmpty
                 String title,

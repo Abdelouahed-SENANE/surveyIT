@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,36 +26,30 @@ public class ChapterServiceImp implements ChapterService {
     private final EditionService editionService;
 
     @Override
-    @Transactional
-    public ChapterResponseDTO createChapter(ChapterCreateDTO dto, Long editionId) {
+    public ChapterResponseDTO createChapter(ChapterCreateDTO dto, Long id) {
 
-        Edition edition = editionService.getEditionEntity(editionId);
+        Chapter toChapter = mapper.toChapter(dto);
 
-        Chapter chapter = mapper.toChapter(dto);
-        chapter.setEdition(edition);
+        Optional<Chapter> optionalChapter = repository.findById(id);
+        if (optionalChapter.isPresent()){
+            Chapter chapter = optionalChapter.get();
+            toChapter.setParentId(id);
+            toChapter.setEdition(chapter.getEdition());
+        }else {
+            Edition edition = editionService.getEditionEntity(id);
+            toChapter.setEdition(edition);
+        }
 
-
-        return mapper.toResponseDTO( repository.save(chapter));
+        return mapper.toResponseDTO(repository.save(toChapter));
 
     }
 
-    @Override
-    public ChapterResponseDTO createSubChapter(ChapterCreateDTO dto, Long chapterId) {
-
-        Chapter parent = repository.findById(chapterId).orElseThrow(() -> new EntityNotFoundException("Chapter not found."));
-
-        Chapter subChapter = mapper.toChapter(dto);
-        subChapter.setEdition(parent.getEdition());
-        subChapter.setChapterId(parent.getId());
-
-        return mapper.toResponseDTO(repository.save(subChapter));
-    }
 
     @Override
     public ChapterResponseDTO editChapter(ChapterUpdateDTO dto, Long id) {
 
-        Chapter chapter = mapper.toChapter(dto);
-        chapter.setId(id);
+        Chapter chapter = repository.findById(id).get();
+        chapter.setTitle(dto.title());
         return mapper.toResponseDTO(repository.save(chapter));
 
     }
@@ -67,15 +62,19 @@ public class ChapterServiceImp implements ChapterService {
     @Override
     public List<ChapterResponseDTO> getAllChapters() {
 
-        return repository.findAllChapters().stream()
+        return repository.findAllByChapterIdIsNull().stream()
                 .map(mapper::toResponseDTO).toList();
 
     }
 
     @Override
     public ChapterResponseDTO getChapter(Long id) {
-        Chapter chapter = repository.findById(id).orElse(null);
+        Chapter chapter = repository.findById(id).get();
         return mapper.toResponseDTO(chapter);
     }
 
+    @Override
+    public Chapter findChapterById(Long chapterId) {
+        return repository.findById(chapterId).orElseThrow(() -> new EntityNotFoundException("Chapter not found."));
+    }
 }
