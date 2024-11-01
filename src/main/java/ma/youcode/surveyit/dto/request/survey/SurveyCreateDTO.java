@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.request;
+package ma.youcode.surveyit.dto.request.survey;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

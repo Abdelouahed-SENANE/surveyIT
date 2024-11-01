@@ -1,9 +1,9 @@
 package ma.youcode.surveyit.service.implementations;
 
 import jakarta.persistence.EntityNotFoundException;
-import ma.youcode.surveyit.dto.request.OwnerCreateDTO;
-import ma.youcode.surveyit.dto.request.OwnerUpdateDTO;
-import ma.youcode.surveyit.dto.response.OwnerResponseDTO;
+import ma.youcode.surveyit.dto.request.owner.OwnerCreateDTO;
+import ma.youcode.surveyit.dto.request.owner.OwnerUpdateDTO;
+import ma.youcode.surveyit.dto.response.owner.OwnerResponseDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.mapper.OwnerMapper;
 import ma.youcode.surveyit.repository.OwnerRepository;

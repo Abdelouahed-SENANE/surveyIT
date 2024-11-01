@@ -1,6 +1,6 @@
 package ma.youcode.surveyit.exception;
 
-import ma.youcode.surveyit.dto.response.ErrorResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.ErrorResponseDTO;
 import ma.youcode.surveyit.repository.SurveyRepository;
 import ma.youcode.surveyit.util.Response;
 import org.slf4j.LoggerFactory;

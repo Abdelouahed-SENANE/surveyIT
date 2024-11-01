@@ -1,8 +1,8 @@
 package ma.youcode.surveyit.mapper;
 
-import ma.youcode.surveyit.dto.request.EditionCreateDTO;
-import ma.youcode.surveyit.dto.request.EditionUpdateDTO;
-import ma.youcode.surveyit.dto.response.EditionResponseDTO;
+import ma.youcode.surveyit.dto.request.edition.EditionCreateDTO;
+import ma.youcode.surveyit.dto.request.edition.EditionUpdateDTO;
+import ma.youcode.surveyit.dto.response.edition.EditionResponseDTO;
 import ma.youcode.surveyit.entity.Edition;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -3,11 +3,14 @@ package ma.youcode.surveyit.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
-import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
-import ma.youcode.surveyit.dto.request.EditionCreateDTO;
-import ma.youcode.surveyit.dto.request.EditionUpdateDTO;
-import ma.youcode.surveyit.dto.response.EditionResponseDTO;
+import ma.youcode.surveyit.dto.request.chapter.ChapterCreateDTO;
+import ma.youcode.surveyit.dto.response.chapter.ChapterResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.request.edition.EditionCreateDTO;
+import ma.youcode.surveyit.dto.request.edition.EditionUpdateDTO;
+import ma.youcode.surveyit.dto.response.edition.EditionResponseDTO;
 import ma.youcode.surveyit.entity.Edition;
+import ma.youcode.surveyit.service.interfaces.ChapterService;
 import ma.youcode.surveyit.service.interfaces.EditionService;
 import ma.youcode.surveyit.util.Response;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import java.util.List;
 public class EditionController {
 
     private final EditionService service;
+    private final ChapterService chapterService;
 
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> editions() {
@@ -58,25 +62,28 @@ public class EditionController {
     ) {
 
         EditionResponseDTO response = service.editEdition(dto, id);
-        return Response.success(200,
-                "Edition updated successfully",
-                "edition",
-                response
-        );
+        return Response.success(200, "Edition updated successfully", "edition", response);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<SuccessResponseDTO> add(
+    public ResponseEntity<SuccessResponseDTO> create(
             @Valid @RequestBody EditionCreateDTO dto
     ) {
 
         EditionResponseDTO response = service.createEdition(dto);
-        return Response.success(201,
-                "Edition Created successfully",
-                "edition",
-                response
-        );
+        return Response.success(201, "Edition Created successfully", "edition", response);
     }
+
+    @PostMapping("/{editionId}/chapters")
+    public ResponseEntity<SuccessResponseDTO> createChapter(
+            @Valid @PathVariable @Exists(entity = Edition.class , message = "Edition not found.") Long editionId,@Valid @RequestBody ChapterCreateDTO dto
+    ) {
+
+        ChapterResponseDTO response = chapterService.createChapter(dto , editionId);
+        return Response.success(201, "Chapter Created successfully", "chapter", response);
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SuccessResponseDTO> delete(

@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.response;
+package ma.youcode.surveyit.dto.response.transfer;
 
 import java.time.LocalDateTime;
 import java.util.Map;

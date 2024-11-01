@@ -1,9 +1,9 @@
 package ma.youcode.surveyit.mapper;
 
-import ma.youcode.surveyit.dto.request.OwnerCreateDTO;
-import ma.youcode.surveyit.dto.request.OwnerUpdateDTO;
-import ma.youcode.surveyit.dto.response.OwnerEmbeddedDTO;
-import ma.youcode.surveyit.dto.response.OwnerResponseDTO;
+import ma.youcode.surveyit.dto.request.owner.OwnerCreateDTO;
+import ma.youcode.surveyit.dto.request.owner.OwnerUpdateDTO;
+import ma.youcode.surveyit.dto.response.owner.OwnerEmbeddedDTO;
+import ma.youcode.surveyit.dto.response.owner.OwnerResponseDTO;
 import ma.youcode.surveyit.entity.Owner;
 import org.mapstruct.Mapper;
 

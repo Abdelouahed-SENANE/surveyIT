@@ -1,4 +1,6 @@
-package ma.youcode.surveyit.dto.response;
+package ma.youcode.surveyit.dto.response.survey;
+
+import ma.youcode.surveyit.dto.response.owner.OwnerEmbeddedDTO;
 
 import java.io.Serializable;
 

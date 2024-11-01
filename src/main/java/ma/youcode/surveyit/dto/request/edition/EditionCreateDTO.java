@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.request;
+package ma.youcode.surveyit.dto.request.edition;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -9,15 +9,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.Year;
 
-public record EditionUpdateDTO
-        (
-                @NotNull LocalDateTime creationDate ,
-                @NotNull LocalDateTime startDate,
-                @NotNull int year,
-                @NotNull @Exists(entity = Survey.class , message = "Survey not found.") Long surveyId
-        )
+public record EditionCreateDTO(
+        @NotNull LocalDateTime creationDate ,
+        @NotNull LocalDateTime startDate,
+        @NotNull int year,
+        @NotNull @Exists(entity = Survey.class , message = "Survey not found.") Long surveyId
+) implements Serializable {
 
-        implements Serializable {
     @AssertTrue(message = "Year must be valid")
     public boolean isValidYear(){
         return year >= Year.now().getValue();
@@ -27,5 +25,5 @@ public record EditionUpdateDTO
     public boolean isStartDateValid(){
         return startDate.isAfter(creationDate);
     }
-
 }
+

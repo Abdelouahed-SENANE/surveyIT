@@ -2,10 +2,10 @@ package ma.youcode.surveyit.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
-import ma.youcode.surveyit.dto.request.OwnerCreateDTO;
-import ma.youcode.surveyit.dto.response.OwnerResponseDTO;
-import ma.youcode.surveyit.dto.request.OwnerUpdateDTO;
+import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.request.owner.OwnerCreateDTO;
+import ma.youcode.surveyit.dto.response.owner.OwnerResponseDTO;
+import ma.youcode.surveyit.dto.request.owner.OwnerUpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.util.Response;
@@ -65,8 +65,8 @@ public class OwnerController {
         );
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<SuccessResponseDTO> add(
+    @PostMapping
+    public ResponseEntity<SuccessResponseDTO> create(
             @Valid @RequestBody OwnerCreateDTO dto
     ) {
 

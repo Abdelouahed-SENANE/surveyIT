@@ -1,11 +1,12 @@
 package ma.youcode.surveyit.service.implementations;
 
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.request.EditionCreateDTO;
-import ma.youcode.surveyit.dto.request.EditionUpdateDTO;
-import ma.youcode.surveyit.dto.response.EditionResponseDTO;
+import ma.youcode.surveyit.dto.request.edition.EditionCreateDTO;
+import ma.youcode.surveyit.dto.request.edition.EditionUpdateDTO;
+import ma.youcode.surveyit.dto.response.edition.EditionResponseDTO;
 import ma.youcode.surveyit.entity.Edition;
 import ma.youcode.surveyit.entity.Survey;
+import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.EditionMapper;
 import ma.youcode.surveyit.repository.EditionRepository;
 import ma.youcode.surveyit.service.interfaces.EditionService;
@@ -37,7 +38,7 @@ public class EditionServiceImp implements EditionService {
     }
 
     @Override
-    public EditionResponseDTO editEdition(EditionUpdateDTO dto , Long id) {
+    public EditionResponseDTO editEdition(EditionUpdateDTO dto, Long id) {
 
         Edition edition = mapper.toEdition(dto);
         edition.setId(id);
@@ -64,5 +65,8 @@ public class EditionServiceImp implements EditionService {
         return mapper.toResponseDTO(edition);
     }
 
-
+    @Override
+    public Edition getEditionEntity(Long id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Edition not found."));
+    }
 }

@@ -32,7 +32,7 @@ public class Edition {
     private int year;
 
     @OneToMany(mappedBy = "edition")
-    private Set<Subject> subjects;
+    private Set<Chapter> chapters;
 
     @ManyToOne
     @JoinColumn(name = "survey_id")

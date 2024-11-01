@@ -2,10 +2,10 @@ package ma.youcode.surveyit.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
-import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
-import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
-import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
+import ma.youcode.surveyit.dto.response.survey.SurveyResponseDTO;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
 import ma.youcode.surveyit.util.Response;
@@ -67,8 +67,8 @@ public class SurveyController {
         );
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<SuccessResponseDTO> add(
+    @PostMapping
+    public ResponseEntity<SuccessResponseDTO> create(
             @Valid @RequestBody SurveyCreateDTO dto
     ) {
 

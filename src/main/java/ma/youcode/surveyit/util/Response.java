@@ -1,7 +1,7 @@
 package ma.youcode.surveyit.util;
 
-import ma.youcode.surveyit.dto.response.SuccessResponseDTO;
-import ma.youcode.surveyit.dto.response.ErrorResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.ErrorResponseDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;

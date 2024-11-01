@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.request;
+package ma.youcode.surveyit.dto.request.owner;
 
 import jakarta.validation.constraints.NotEmpty;
 import ma.youcode.surveyit.annotation.interfaces.Unique;

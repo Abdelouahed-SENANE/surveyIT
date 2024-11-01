@@ -2,9 +2,9 @@ package ma.youcode.surveyit.service.implementations;
 
 import jakarta.persistence.EntityExistsException;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
-import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
-import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.response.survey.SurveyResponseDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
 import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.exception.EntityNotFoundException;

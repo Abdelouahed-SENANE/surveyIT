@@ -1,4 +1,4 @@
-package ma.youcode.surveyit.dto.response;
+package ma.youcode.surveyit.dto.response.owner;
 
 import java.io.Serializable;
 

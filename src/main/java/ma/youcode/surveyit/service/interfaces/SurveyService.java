@@ -1,8 +1,8 @@
 package ma.youcode.surveyit.service.interfaces;
 
-import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
-import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
-import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.response.survey.SurveyResponseDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
 import ma.youcode.surveyit.entity.Survey;
 
 import java.util.List;

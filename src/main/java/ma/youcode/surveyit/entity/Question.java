@@ -33,8 +33,8 @@ public class Question {
     private int answerCount;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
+    @JoinColumn(name = "chapter_id")
+    private Chapter chapter;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     private Set<Answer> answers;

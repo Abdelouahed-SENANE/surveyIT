@@ -1,9 +1,9 @@
 package ma.youcode.surveyit.mapper;
 
-import ma.youcode.surveyit.dto.request.SurveyCreateDTO;
-import ma.youcode.surveyit.dto.request.SurveyUpdateDTO;
-import ma.youcode.surveyit.dto.response.SurveyEmbeddedDTO;
-import ma.youcode.surveyit.dto.response.SurveyResponseDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
+import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
+import ma.youcode.surveyit.dto.response.survey.SurveyEmbeddedDTO;
+import ma.youcode.surveyit.dto.response.survey.SurveyResponseDTO;
 import ma.youcode.surveyit.entity.Survey;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
