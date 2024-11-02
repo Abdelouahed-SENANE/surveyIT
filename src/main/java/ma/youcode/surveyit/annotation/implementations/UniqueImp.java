@@ -24,7 +24,7 @@ public class UniqueImp implements ConstraintValidator<Unique, String> {
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
         if (field == null) {
-            return true;
+            return false;
         }
 
         String jpql = "SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e WHERE LOWER(e." + field + ") = LOWER(:value)";

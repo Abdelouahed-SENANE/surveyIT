@@ -1,0 +1,67 @@
+package ma.youcode.surveyit.service.implementations;
+
+import lombok.AllArgsConstructor;
+import ma.youcode.surveyit.dto.request.answer.AnswerCreateDTO;
+import ma.youcode.surveyit.dto.request.answer.AnswerUpdateDTO;
+import ma.youcode.surveyit.dto.response.answer.AnswerResponseDTO;
+import ma.youcode.surveyit.entity.Chapter;
+import ma.youcode.surveyit.entity.Answer;
+import ma.youcode.surveyit.entity.Question;
+import ma.youcode.surveyit.mapper.AnswerMapper;
+import ma.youcode.surveyit.repository.AnswerRepository;
+import ma.youcode.surveyit.service.interfaces.ChapterService;
+import ma.youcode.surveyit.service.interfaces.AnswerService;
+import ma.youcode.surveyit.service.interfaces.QuestionService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class AnswerServiceImp implements AnswerService {
+
+    private final AnswerRepository repository;
+    private final AnswerMapper mapper;
+    private final QuestionService questionService;
+
+    @Override
+    public AnswerResponseDTO createAnswer(AnswerCreateDTO dto) {
+
+        Question question = questionService.findQuestionById(dto.questionId());
+
+        Answer toAnswer = mapper.toAnswer(dto);
+        toAnswer.setQuestion(question);
+
+        return mapper.toResponseDTO(repository.save(toAnswer));
+    }
+
+
+    @Override
+    public AnswerResponseDTO editAnswer(AnswerUpdateDTO dto, Long id) {
+
+//        Answer answer = repository.findById(id).get();
+//        answer.setTitle(dto.title());
+//        return mapper.toResponseDTO(repository.save(answer));
+        return null;
+    }
+
+    @Override
+    public void deleteAnswer(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public List<AnswerResponseDTO> getAllAnswers() {
+
+        return repository.findAll().stream()
+                .map(mapper::toResponseDTO).toList();
+
+    }
+
+    @Override
+    public AnswerResponseDTO getAnswer(Long id) {
+        Answer answer = repository.findById(id).get();
+        return mapper.toResponseDTO(answer);
+    }
+
+}

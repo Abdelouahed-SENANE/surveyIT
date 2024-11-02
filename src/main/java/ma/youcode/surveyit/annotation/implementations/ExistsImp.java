@@ -22,7 +22,7 @@ public class ExistsImp implements ConstraintValidator<Exists, Long> {
     public boolean isValid(Long id, ConstraintValidatorContext context) {
 
         if (id == null) {
-            return true;
+            return false;
         }
 
         boolean exists = manager.find(entityClass, id) != null;

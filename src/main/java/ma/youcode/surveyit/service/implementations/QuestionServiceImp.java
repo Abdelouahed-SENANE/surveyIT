@@ -6,6 +6,7 @@ import ma.youcode.surveyit.dto.request.question.QuestionUpdateDTO;
 import ma.youcode.surveyit.dto.response.question.QuestionResponseDTO;
 import ma.youcode.surveyit.entity.Chapter;
 import ma.youcode.surveyit.entity.Question;
+import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.QuestionMapper;
 import ma.youcode.surveyit.repository.QuestionRepository;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
@@ -69,4 +70,8 @@ public class QuestionServiceImp implements QuestionService {
         return mapper.toResponseDTO(question);
     }
 
+    @Override
+    public Question findQuestionById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Question not found."));
+    }
 }

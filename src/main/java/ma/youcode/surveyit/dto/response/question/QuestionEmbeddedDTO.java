@@ -15,7 +15,6 @@ public record QuestionEmbeddedDTO(
         Long id,
         String text,
         QuestionType type,
-        int answerCount,
-        ChapterEmbeddedDTO subchapter
+        int answerCount
 ) implements Serializable {
 }

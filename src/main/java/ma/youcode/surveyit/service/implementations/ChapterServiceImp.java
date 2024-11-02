@@ -62,7 +62,7 @@ public class ChapterServiceImp implements ChapterService {
     @Override
     public List<ChapterResponseDTO> getAllChapters() {
 
-        return repository.findAllByChapterIdIsNull().stream()
+        return repository.findAll().stream()
                 .map(mapper::toResponseDTO).toList();
 
     }

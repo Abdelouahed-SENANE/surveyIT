@@ -4,16 +4,18 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
 import ma.youcode.surveyit.entity.Edition;
+import ma.youcode.surveyit.entity.Question;
 
 import java.io.Serializable;
 
 public record AnswerUpdateDTO
         (
                 @NotEmpty
-                String title,
+                String text,
                 @NotNull
-                @Exists(entity = Edition.class, message = "Edition not found.")
-                Long editionId
+                int selectionCount,
+                @Exists(entity = Question.class , message = "Question not found.")
+                Long questionId
         )
 
         implements Serializable {

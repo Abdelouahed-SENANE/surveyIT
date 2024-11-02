@@ -13,8 +13,9 @@ import java.util.List;
 public record ChapterEmbeddedDTO(
                             Long id,
                             String title,
+                            List<ChapterEmbeddedDTO> subchapters,
                             @JsonInclude(JsonInclude.Include.NON_EMPTY)
-                            List<SubchapterDTO> subchapters
+                            List<QuestionEmbeddedDTO> questions
 
 ) implements Serializable {
 }

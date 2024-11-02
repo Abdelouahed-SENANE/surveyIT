@@ -83,16 +83,7 @@ public class EditionController {
         return Response.success(201, "Chapter Created successfully", "chapter", response);
     }
 
-//    Add answer to Survey
-    @PostMapping("{editionId}/participate")
-    public ResponseEntity<SuccessResponseDTO> createAnswer
-    (
-            @Valid @PathVariable @Exists(entity = Edition.class , message = "Edition not found.") Long editionId,@Valid @RequestBody ChapterCreateDTO dto
-    ) {
 
-        ChapterResponseDTO response = chapterService.createChapter(dto , editionId);
-        return Response.success(201, "Chapter Created successfully", "chapter", response);
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SuccessResponseDTO> delete(
