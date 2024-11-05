@@ -1,11 +1,11 @@
 package ma.youcode.surveyit.dto.response.question;
 
-import ma.youcode.surveyit.dto.response.chapter.ChapterEmbeddedDTO;
-import ma.youcode.surveyit.dto.response.survey.SurveyEmbeddedDTO;
+import ma.youcode.surveyit.dto.response.answer.AnswerEmbeddedDTO;
+import ma.youcode.surveyit.dto.response.chapter.ChapterCustomDTO;
 import ma.youcode.surveyit.enums.QuestionType;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.List;
 
 
 public record QuestionResponseDTO(
@@ -13,5 +13,6 @@ public record QuestionResponseDTO(
         String text,
         QuestionType type,
         int answerCount,
-        ChapterEmbeddedDTO subchapter
+        ChapterCustomDTO subchapter,
+        List<AnswerEmbeddedDTO> answers
 ) implements Serializable { }

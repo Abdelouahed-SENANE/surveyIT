@@ -29,13 +29,15 @@ public class ChapterServiceImp implements ChapterService {
     public ChapterResponseDTO createChapter(ChapterCreateDTO dto, Long id) {
 
         Chapter toChapter = mapper.toChapter(dto);
-
         Optional<Chapter> optionalChapter = repository.findById(id);
-        if (optionalChapter.isPresent()){
-            Chapter chapter = optionalChapter.get();
+
+        if (optionalChapter.isPresent()) {
+//            Chapter chapter = optionalChapter.get();
             toChapter.setParentId(id);
-            toChapter.setEdition(chapter.getEdition());
-        }else {
+//            Edition edition = new Edition();
+//            edition.setId(null);
+            toChapter.setEdition(null);
+        } else {
             Edition edition = editionService.getEditionEntity(id);
             toChapter.setEdition(edition);
         }
