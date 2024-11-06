@@ -13,14 +13,14 @@ public record ErrorResponseDTO(
         String message,
         LocalDateTime timestamp,
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        Optional<Map<String, String>> errors) implements Serializable {
+        Map<String, String>errors) implements Serializable {
 
-    public ErrorResponseDTO(int status, String message, LocalDateTime time) {
-        this(status, message, time, Optional.empty());
-    }
-
-    public ErrorResponseDTO(int status, String message, LocalDateTime time , Map<String , String> errors) {
-        this(status, message, time, Optional.of(errors));
-    }
+//    public ErrorResponseDTO(int status, String message, LocalDateTime time) {
+//        this(status, message, time, Optional.empty());
+//    }
+//
+//    public ErrorResponseDTO(int status, String message, LocalDateTime time , Map<String , String> errors) {
+//        this(status, message, time, Optional.of(errors));
+//    }
 
 }

@@ -74,4 +74,9 @@ public class QuestionServiceImp implements QuestionService {
     public Question findQuestionById(Long id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Question not found."));
     }
+
+    @Override
+    public void editAnswerCount(Question question) {
+        repository.save(question);
+    }
 }

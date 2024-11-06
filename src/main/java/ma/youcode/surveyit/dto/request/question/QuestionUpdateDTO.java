@@ -17,7 +17,7 @@ public record QuestionUpdateDTO
                 @NotNull
                 int answerCount,
                 @Exists(entity = Chapter.class , message = "Subchapter not found.")
-                Long subChapterId
+                Long subchapterId
         )
 
         implements Serializable {

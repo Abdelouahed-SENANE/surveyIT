@@ -1,5 +1,6 @@
 package ma.youcode.surveyit.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.ErrorResponseDTO;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,12 @@ public abstract class Response {
         payload.put(key, value);
         return ResponseEntity.status(status).body((new SuccessResponseDTO(status, message, payload, LocalDateTime.now())));
     }
+    public static ResponseEntity<SuccessResponseDTO> success(int status, String message) {
+        return ResponseEntity.status(status).body((new SuccessResponseDTO(status, message, null, LocalDateTime.now())));
+    }
 
     public static ResponseEntity<ErrorResponseDTO> error(int status, String message, LocalDateTime timestamp) {
-        return ResponseEntity.status(status).body((new ErrorResponseDTO(status, message, timestamp)));
+        return ResponseEntity.status(status).body((new ErrorResponseDTO(status, message, timestamp , null)));
     }
 
     public static ResponseEntity<ErrorResponseDTO> error(int status, String message, LocalDateTime timestamp, Map<String, String> errors) {

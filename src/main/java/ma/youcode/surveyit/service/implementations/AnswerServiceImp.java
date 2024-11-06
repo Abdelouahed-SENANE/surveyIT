@@ -7,6 +7,7 @@ import ma.youcode.surveyit.dto.response.answer.AnswerResponseDTO;
 import ma.youcode.surveyit.entity.Chapter;
 import ma.youcode.surveyit.entity.Answer;
 import ma.youcode.surveyit.entity.Question;
+import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.AnswerMapper;
 import ma.youcode.surveyit.repository.AnswerRepository;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
@@ -63,5 +64,13 @@ public class AnswerServiceImp implements AnswerService {
         Answer answer = repository.findById(id).get();
         return mapper.toResponseDTO(answer);
     }
+    @Override
+    public Answer findAnswerById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Answer not found."));
+    }
 
+    @Override
+    public void editSelectionCount(Answer answer) {
+        repository.save(answer);
+    }
 }

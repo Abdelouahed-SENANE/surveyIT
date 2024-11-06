@@ -32,10 +32,7 @@ public class ChapterServiceImp implements ChapterService {
         Optional<Chapter> optionalChapter = repository.findById(id);
 
         if (optionalChapter.isPresent()) {
-//            Chapter chapter = optionalChapter.get();
             toChapter.setParentId(id);
-//            Edition edition = new Edition();
-//            edition.setId(null);
             toChapter.setEdition(null);
         } else {
             Edition edition = editionService.getEditionEntity(id);

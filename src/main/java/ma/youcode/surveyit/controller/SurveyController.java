@@ -1,19 +1,20 @@
 package ma.youcode.surveyit.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.Convert;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.request.answer.AnswerCreateDTO;
-import ma.youcode.surveyit.dto.request.chapter.ChapterCreateDTO;
-import ma.youcode.surveyit.dto.response.answer.AnswerResponseDTO;
-import ma.youcode.surveyit.dto.response.chapter.ChapterResponseDTO;
+import ma.youcode.surveyit.dto.request.participate.ParticipateDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
 import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
 import ma.youcode.surveyit.dto.response.survey.SurveyResponseDTO;
-import ma.youcode.surveyit.entity.Edition;
 import ma.youcode.surveyit.entity.Survey;
-import ma.youcode.surveyit.service.interfaces.AnswerService;
+import ma.youcode.surveyit.service.interfaces.ParticipateService;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
+//import ma.youcode.surveyit.util.Converter;
+import ma.youcode.surveyit.util.Converter;
 import ma.youcode.surveyit.util.Response;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
 import org.apache.commons.logging.Log;
@@ -21,6 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -30,7 +33,7 @@ public class SurveyController {
 
     private static final Log log = LogFactory.getLog(SurveyController.class);
     private final SurveyService service;
-    private final AnswerService answerService;
+    private final ParticipateService participateService;
 
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> surveys() {
@@ -103,16 +106,21 @@ public class SurveyController {
         );
     }
 
+    @PostMapping("{surveyId}/participate")
+    public ResponseEntity<SuccessResponseDTO> participate(@RequestBody String request , @PathVariable Long surveyId){
 
-//    //    Add answer to Survey
-//    @PostMapping("{surveyId}/participate")
-//    public ResponseEntity<SuccessResponseDTO> createAnswer
-//    (
-//            @Valid @PathVariable @Exists(entity = Edition.class , message = "Surveydition not found.") Long surveyId, @Valid @RequestBody AnswerCreateDTO dto
-//    ) {
-//
-//        log.info(dto.toString());
-//        AnswerResponseDTO response = answerService.createAnswer(dto , surveyId);
-//        return Response.success(201, "Chapter Created successfully", "chapter", response);
-//    }
+        Object dto =  Converter.process(request);
+        participateService.participateProcess(dto);
+
+        return Response.success(201 , "Participated recorded successfully");
+    }
+
+    @GetMapping("{surveyId}/results")
+    public ResponseEntity<SuccessResponseDTO> results( @PathVariable @Exists(entity = Survey.class, message = "Survey not found") Long surveyId){
+
+        SurveyResponseDTO results = service.getSurvey(surveyId);
+        return Response.success(200 , "Results for survey successfully" , "results",results);
+    }
+
+
 }

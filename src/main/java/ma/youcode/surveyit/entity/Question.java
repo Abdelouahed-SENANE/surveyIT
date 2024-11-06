@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.youcode.surveyit.enums.QuestionType;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,7 +38,7 @@ public class Question {
     private Chapter subchapter;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
-    private Set<Answer> answers;
+    private List<Answer> answers;
 
 
 }

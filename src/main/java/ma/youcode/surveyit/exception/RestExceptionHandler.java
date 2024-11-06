@@ -50,7 +50,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ErrorResponseDTO handleEntityNotFoundException(EntityNotFoundException ex) {
-        return new ErrorResponseDTO(404, ex.getMessage(), LocalDateTime.now());
+        return new ErrorResponseDTO(404, ex.getMessage(), LocalDateTime.now() , null);
     }
 //
 //    @ExceptionHandler(HandlerMethodValidationException.class)

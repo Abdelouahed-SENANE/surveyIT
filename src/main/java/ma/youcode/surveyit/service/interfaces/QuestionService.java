@@ -14,6 +14,6 @@ public interface QuestionService {
     QuestionResponseDTO editQuestion(QuestionUpdateDTO dto , Long id);
     void deleteQuestion(Long id);
     Question findQuestionById(Long id);
-
+    void editAnswerCount(Question question);
 
 }

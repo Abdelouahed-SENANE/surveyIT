@@ -9,7 +9,6 @@ import java.io.Serializable;
 public record AnswerEmbeddedDTO(
         Long id,
         String text,
-        int selectionCount,
-        QuestionEmbeddedDTO question
+        int selectionCount
 ) implements Serializable {
 }
