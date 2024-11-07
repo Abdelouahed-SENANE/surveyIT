@@ -6,6 +6,7 @@ import jakarta.persistence.Convert;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.youcode.surveyit.dto.request.participate.ParticipateDTO;
+import ma.youcode.surveyit.dto.response.survey.SurveyResultDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
 import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
@@ -118,7 +119,7 @@ public class SurveyController {
     @GetMapping("{surveyId}/results")
     public ResponseEntity<SuccessResponseDTO> results( @PathVariable @Exists(entity = Survey.class, message = "Survey not found") Long surveyId){
 
-        SurveyResponseDTO results = service.getSurvey(surveyId);
+        SurveyResultDTO results = service.getSurveyResults(surveyId);
         return Response.success(200 , "Results for survey successfully" , "results",results);
     }
 
