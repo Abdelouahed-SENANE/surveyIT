@@ -27,14 +27,17 @@ public class OwnerController {
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> owners(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
-        Page<OwnerResponseDTO> ownersPage = service.getAllOwners( page , size);
+        int index  = page > 0 ? page - 1 : 0;
+
+        Page<OwnerResponseDTO> ownersPage = service.getAllOwners( index , size);
 
         PageResponseDTO pageDTO = new PageResponseDTO(
+                ownersPage.getTotalElements(),
                 ownersPage.getTotalPages(),
                 ownersPage.getSize(),
-                ownersPage.getNumber(),
-                ownersPage.hasPrevious() ? ownersPage.getNumber() - 1 : 0,
-                ownersPage.hasNext() ? ownersPage.getNumber() + 1 : ownersPage.getNumber()
+                ownersPage.getNumber() + 1,
+                ownersPage.hasPrevious(),
+                ownersPage.hasNext()
         );
 
         return Response.success(200,

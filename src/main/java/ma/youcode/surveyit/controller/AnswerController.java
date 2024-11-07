@@ -31,14 +31,17 @@ public class AnswerController {
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> answers(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "0") int size) {
 
-        Page<AnswerResponseDTO> answersPage = service.getAllAnswers(page , size);
+        int index  = page > 0 ? page - 1 : 0;
+
+        Page<AnswerResponseDTO> answersPage = service.getAllAnswers(index , size);
 
         PageResponseDTO pageDTO = new PageResponseDTO(
+                answersPage.getTotalElements(),
                 answersPage.getTotalPages(),
                 answersPage.getSize(),
-                answersPage.getNumber(),
-                answersPage.hasPrevious() ? answersPage.getNumber() - 1 : 0,
-                answersPage.hasNext() ? answersPage.getNumber() + 1 : answersPage.getNumber()
+                answersPage.getNumber() + 1,
+                answersPage.hasPrevious(),
+                answersPage.hasNext()
         );
 
         return Response.success(200, "Answers retrieve successfully", "answers", answersPage.getContent() , pageDTO);

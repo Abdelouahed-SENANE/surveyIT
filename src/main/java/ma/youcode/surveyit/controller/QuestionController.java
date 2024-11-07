@@ -27,15 +27,17 @@ public class QuestionController {
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> questions(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
+        int index  = page > 0 ? page - 1 : 0;
 
-        Page<QuestionResponseDTO> questionsPage = service.getAllQuestions(page , size);
+        Page<QuestionResponseDTO> questionsPage = service.getAllQuestions(index , size);
 
         PageResponseDTO pageDTO = new PageResponseDTO(
+                questionsPage.getTotalElements(),
                 questionsPage.getTotalPages(),
                 questionsPage.getSize(),
-                questionsPage.getNumber(),
-                questionsPage.hasPrevious() ? questionsPage.getNumber() - 1 : 0,
-                questionsPage.hasNext() ? questionsPage.getNumber() + 1 : questionsPage.getNumber()
+                questionsPage.getNumber() + 1,
+                questionsPage.hasPrevious(),
+                questionsPage.hasNext()
         );
         return Response.success(200,
                 "Questions retrieve successfully",

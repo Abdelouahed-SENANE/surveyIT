@@ -37,14 +37,16 @@ public class SurveyController {
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> surveys(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "1") int size) {
 
-        Page<SurveyResponseDTO> pageSurvey = service.getAllSurveys(page , size);
+        int index  = page > 0 ? page - 1 : 0;
+        Page<SurveyResponseDTO> pageSurvey = service.getAllSurveys(index , size);
 
         PageResponseDTO pageDTO = new PageResponseDTO(
+                pageSurvey.getTotalElements(),
                 pageSurvey.getTotalPages(),
                 pageSurvey.getSize(),
-                pageSurvey.getNumber(),
-                pageSurvey.hasPrevious()  ? pageSurvey.getNumber() - 1 : 0,
-                pageSurvey.hasNext() ? pageSurvey.getNumber() + 1 : pageSurvey.getNumber()
+                pageSurvey.getNumber() + 1,
+                pageSurvey.hasPrevious(),
+                pageSurvey.hasNext()
         );
 
         return Response.success(200,

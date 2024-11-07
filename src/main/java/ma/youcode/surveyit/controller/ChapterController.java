@@ -33,13 +33,16 @@ public class ChapterController {
     @GetMapping("/chapters")
     public ResponseEntity<SuccessResponseDTO> chapters(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
-        Page<ChapterResponseDTO> chaptersPage = service.getAllChapters(page, size);
+        int index  = page > 0 ? page - 1 : 0;
+
+        Page<ChapterResponseDTO> chaptersPage = service.getAllChapters(index, size);
         PageResponseDTO pageDTO = new PageResponseDTO(
+                chaptersPage.getTotalElements(),
                 chaptersPage.getTotalPages(),
                 chaptersPage.getSize(),
-                chaptersPage.getNumber(),
-                chaptersPage.hasPrevious() ? chaptersPage.getNumber() - 1 : 0,
-                chaptersPage.hasNext() ? chaptersPage.getNumber() + 1 : chaptersPage.getNumber()
+                chaptersPage.getNumber() + 1,
+                chaptersPage.hasPrevious(),
+                chaptersPage.hasNext()
         );
         return Response.success(200,
                 "Chapters retrieve successfully",

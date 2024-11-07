@@ -31,14 +31,17 @@ public class EditionController {
     @GetMapping
     public ResponseEntity<SuccessResponseDTO> editions(@RequestParam(defaultValue = "0") int page , @RequestParam(value = "5") int size) {
 
-        Page<EditionResponseDTO> editionsPage = service.getAllEditions(page, size);
+        int index  = page > 0 ? page - 1 : 0;
+
+        Page<EditionResponseDTO> editionsPage = service.getAllEditions(index, size);
 
         PageResponseDTO pageDTO = new PageResponseDTO(
+                editionsPage.getTotalElements(),
                 editionsPage.getTotalPages(),
                 editionsPage.getSize(),
-                editionsPage.getNumber(),
-                editionsPage.hasPrevious() ? editionsPage.getNumber() - 1 : 0,
-                editionsPage.hasNext() ? editionsPage.getNumber() + 1 : editionsPage.getNumber()
+                editionsPage.getNumber() +  1,
+                editionsPage.hasPrevious(),
+                editionsPage.hasNext()
         );
 
         return Response.success(200,
