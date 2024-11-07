@@ -4,11 +4,12 @@ import ma.youcode.surveyit.dto.request.edition.EditionCreateDTO;
 import ma.youcode.surveyit.dto.request.edition.EditionUpdateDTO;
 import ma.youcode.surveyit.dto.response.edition.EditionResponseDTO;
 import ma.youcode.surveyit.entity.Edition;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface EditionService {
-    List<EditionResponseDTO> getAllEditions();
+    Page<EditionResponseDTO> getAllEditions(int page , int size);
     EditionResponseDTO getEdition(Long id);
     EditionResponseDTO createEdition(EditionCreateDTO dto);
     EditionResponseDTO editEdition(EditionUpdateDTO dto , Long id);

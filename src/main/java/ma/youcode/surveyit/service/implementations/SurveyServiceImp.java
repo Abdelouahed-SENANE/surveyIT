@@ -12,6 +12,9 @@ import ma.youcode.surveyit.mapper.SurveyMapper;
 import ma.youcode.surveyit.repository.SurveyRepository;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,10 +61,10 @@ public class SurveyServiceImp implements SurveyService {
     }
 
     @Override
-    public List<SurveyResponseDTO> getAllSurveys() {
-
-        return repository.findAll().stream()
-                .map(mapper::toResponseDTO).toList();
+    public Page<SurveyResponseDTO> getAllSurveys(int page , int size) {
+        Pageable pageable = PageRequest.of(page , size);
+        Page<Survey> surveyPage = repository.findAll(pageable);
+        return surveyPage.map(mapper::toResponseDTO);
 
     }
 

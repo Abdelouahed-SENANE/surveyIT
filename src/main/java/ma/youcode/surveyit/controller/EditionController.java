@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
 import ma.youcode.surveyit.dto.request.chapter.ChapterCreateDTO;
 import ma.youcode.surveyit.dto.response.chapter.ChapterResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.PageResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.request.edition.EditionCreateDTO;
 import ma.youcode.surveyit.dto.request.edition.EditionUpdateDTO;
@@ -13,6 +14,7 @@ import ma.youcode.surveyit.entity.Edition;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
 import ma.youcode.surveyit.service.interfaces.EditionService;
 import ma.youcode.surveyit.util.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +29,23 @@ public class EditionController {
     private final ChapterService chapterService;
 
     @GetMapping
-    public ResponseEntity<SuccessResponseDTO> editions() {
+    public ResponseEntity<SuccessResponseDTO> editions(@RequestParam(defaultValue = "0") int page , @RequestParam(value = "5") int size) {
 
-        List<EditionResponseDTO> editions = service.getAllEditions();
+        Page<EditionResponseDTO> editionsPage = service.getAllEditions(page, size);
+
+        PageResponseDTO pageDTO = new PageResponseDTO(
+                editionsPage.getTotalPages(),
+                editionsPage.getSize(),
+                editionsPage.getNumber(),
+                editionsPage.hasPrevious() ? editionsPage.getNumber() - 1 : 0,
+                editionsPage.hasNext() ? editionsPage.getNumber() + 1 : editionsPage.getNumber()
+        );
+
         return Response.success(200,
                 "Editions retrieve successfully",
                 "editions",
-                editions
+                editionsPage.getContent(),
+                pageDTO
         );
 
     }

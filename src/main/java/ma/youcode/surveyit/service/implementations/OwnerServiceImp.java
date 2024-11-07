@@ -9,6 +9,9 @@ import ma.youcode.surveyit.mapper.OwnerMapper;
 import ma.youcode.surveyit.repository.OwnerRepository;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,10 +46,12 @@ public class OwnerServiceImp implements OwnerService {
     }
 
     @Override
-    public List<OwnerResponseDTO> getAllOwners() {
+    public Page<OwnerResponseDTO> getAllOwners(int page , int size) {
 
-        return repository.findAll().stream()
-                .map(mapper::toResponseDTO).toList();
+        Pageable pageable = PageRequest.of(page , size);
+        Page<Owner> ownerPage = repository.findAll(pageable);
+
+        return ownerPage.map(mapper::toResponseDTO);
 
     }
 

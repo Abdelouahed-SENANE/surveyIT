@@ -7,6 +7,7 @@ import ma.youcode.surveyit.dto.request.chapter.ChapterCreateDTO;
 import ma.youcode.surveyit.dto.request.chapter.ChapterUpdateDTO;
 import ma.youcode.surveyit.dto.request.question.QuestionCreateDTO;
 import ma.youcode.surveyit.dto.response.question.QuestionResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.PageResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.response.chapter.ChapterResponseDTO;
 import ma.youcode.surveyit.entity.Chapter;
@@ -14,6 +15,7 @@ import ma.youcode.surveyit.entity.Question;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
 import ma.youcode.surveyit.service.interfaces.QuestionService;
 import ma.youcode.surveyit.util.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +31,21 @@ public class ChapterController {
 
 
     @GetMapping("/chapters")
-    public ResponseEntity<SuccessResponseDTO> chapters() {
+    public ResponseEntity<SuccessResponseDTO> chapters(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
-        List<ChapterResponseDTO> chapters = service.getAllChapters();
+        Page<ChapterResponseDTO> chaptersPage = service.getAllChapters(page, size);
+        PageResponseDTO pageDTO = new PageResponseDTO(
+                chaptersPage.getTotalPages(),
+                chaptersPage.getSize(),
+                chaptersPage.getNumber(),
+                chaptersPage.hasPrevious() ? chaptersPage.getNumber() - 1 : 0,
+                chaptersPage.hasNext() ? chaptersPage.getNumber() + 1 : chaptersPage.getNumber()
+        );
         return Response.success(200,
                 "Chapters retrieve successfully",
                 "chapters",
-                chapters
+                chaptersPage.getContent(),
+                pageDTO
         );
 
     }

@@ -2,6 +2,7 @@ package ma.youcode.surveyit.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import ma.youcode.surveyit.dto.response.transfer.PageResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.request.owner.OwnerCreateDTO;
 import ma.youcode.surveyit.dto.response.owner.OwnerResponseDTO;
@@ -10,6 +11,7 @@ import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.service.interfaces.OwnerService;
 import ma.youcode.surveyit.util.Response;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +25,23 @@ public class OwnerController {
     private final OwnerService service;
 
     @GetMapping
-    public ResponseEntity<SuccessResponseDTO> owners() {
+    public ResponseEntity<SuccessResponseDTO> owners(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
-        List<OwnerResponseDTO> owners = service.getAllOwners();
+        Page<OwnerResponseDTO> ownersPage = service.getAllOwners( page , size);
+
+        PageResponseDTO pageDTO = new PageResponseDTO(
+                ownersPage.getTotalPages(),
+                ownersPage.getSize(),
+                ownersPage.getNumber(),
+                ownersPage.hasPrevious() ? ownersPage.getNumber() - 1 : 0,
+                ownersPage.hasNext() ? ownersPage.getNumber() + 1 : ownersPage.getNumber()
+        );
+
         return Response.success(200,
                 "Owners retrieve successfully",
                 "owners",
-                owners
+                ownersPage.getContent(),
+                pageDTO
         );
 
     }

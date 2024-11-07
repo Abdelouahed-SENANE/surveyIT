@@ -11,6 +11,9 @@ import ma.youcode.surveyit.mapper.EditionMapper;
 import ma.youcode.surveyit.repository.EditionRepository;
 import ma.youcode.surveyit.service.interfaces.EditionService;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,10 +55,12 @@ public class EditionServiceImp implements EditionService {
     }
 
     @Override
-    public List<EditionResponseDTO> getAllEditions() {
+    public Page<EditionResponseDTO> getAllEditions(int page, int size) {
 
-        return repository.findAll().stream()
-                .map(mapper::toResponseDTO).toList();
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Edition> editionPage = repository.findAll(pageable);
+
+        return editionPage.map(mapper::toResponseDTO);
 
     }
 

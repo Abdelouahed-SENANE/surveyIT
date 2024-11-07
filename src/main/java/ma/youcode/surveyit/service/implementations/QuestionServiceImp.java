@@ -5,6 +5,7 @@ import ma.youcode.surveyit.dto.request.question.QuestionCreateDTO;
 import ma.youcode.surveyit.dto.request.question.QuestionUpdateDTO;
 import ma.youcode.surveyit.dto.response.question.QuestionResponseDTO;
 import ma.youcode.surveyit.entity.Chapter;
+import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.entity.Question;
 import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.QuestionMapper;
@@ -14,6 +15,9 @@ import ma.youcode.surveyit.service.interfaces.QuestionService;
 import ma.youcode.surveyit.service.interfaces.EditionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,10 +61,12 @@ public class QuestionServiceImp implements QuestionService {
     }
 
     @Override
-    public List<QuestionResponseDTO> getAllQuestions() {
+    public Page<QuestionResponseDTO> getAllQuestions(int page , int size) {
 
-        return repository.findAll().stream()
-                .map(mapper::toResponseDTO).toList();
+        Pageable pageable = PageRequest.of(page , size);
+        Page<Question> questionsPage = repository.findAll(pageable);
+
+        return questionsPage.map(mapper::toResponseDTO);
 
     }
 

@@ -4,11 +4,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
 import ma.youcode.surveyit.dto.request.question.QuestionUpdateDTO;
+import ma.youcode.surveyit.dto.response.answer.AnswerResponseDTO;
 import ma.youcode.surveyit.dto.response.question.QuestionResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.PageResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.entity.Question;
 import ma.youcode.surveyit.service.interfaces.QuestionService;
 import ma.youcode.surveyit.util.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +25,25 @@ public class QuestionController {
     private final QuestionService service;
 
     @GetMapping
-    public ResponseEntity<SuccessResponseDTO> questions() {
+    public ResponseEntity<SuccessResponseDTO> questions(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
-        List<QuestionResponseDTO> questions = service.getAllQuestions();
+
+        Page<QuestionResponseDTO> questionsPage = service.getAllQuestions(page , size);
+
+        PageResponseDTO pageDTO = new PageResponseDTO(
+                questionsPage.getTotalPages(),
+                questionsPage.getSize(),
+                questionsPage.getNumber(),
+                questionsPage.hasPrevious() ? questionsPage.getNumber() - 1 : 0,
+                questionsPage.hasNext() ? questionsPage.getNumber() + 1 : questionsPage.getNumber()
+        );
         return Response.success(200,
                 "Questions retrieve successfully",
                 "questions",
-                questions
+                questionsPage.getContent(),
+                pageDTO
         );
+
 
     }
 

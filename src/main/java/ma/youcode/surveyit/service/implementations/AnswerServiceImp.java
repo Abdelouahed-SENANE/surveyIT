@@ -13,6 +13,9 @@ import ma.youcode.surveyit.repository.AnswerRepository;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
 import ma.youcode.surveyit.service.interfaces.AnswerService;
 import ma.youcode.surveyit.service.interfaces.QuestionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,10 +55,13 @@ public class AnswerServiceImp implements AnswerService {
     }
 
     @Override
-    public List<AnswerResponseDTO> getAllAnswers() {
+    public Page<AnswerResponseDTO> getAllAnswers(int page , int size) {
 
-        return repository.findAll().stream()
-                .map(mapper::toResponseDTO).toList();
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Answer> answersPage = repository.findAll(pageable);
+
+        return answersPage.map(mapper::toResponseDTO);
 
     }
 

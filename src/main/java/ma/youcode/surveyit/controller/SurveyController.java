@@ -1,12 +1,9 @@
 package ma.youcode.surveyit.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Convert;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.youcode.surveyit.dto.request.participate.ParticipateDTO;
 import ma.youcode.surveyit.dto.response.survey.SurveyResultDTO;
+import ma.youcode.surveyit.dto.response.transfer.PageResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.dto.request.survey.SurveyCreateDTO;
 import ma.youcode.surveyit.dto.request.survey.SurveyUpdateDTO;
@@ -14,18 +11,19 @@ import ma.youcode.surveyit.dto.response.survey.SurveyResponseDTO;
 import ma.youcode.surveyit.entity.Survey;
 import ma.youcode.surveyit.service.interfaces.ParticipateService;
 import ma.youcode.surveyit.service.interfaces.SurveyService;
-//import ma.youcode.surveyit.util.Converter;
 import ma.youcode.surveyit.util.Converter;
 import ma.youcode.surveyit.util.Response;
 import ma.youcode.surveyit.annotation.interfaces.Exists;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/surveys")
@@ -37,13 +35,23 @@ public class SurveyController {
     private final ParticipateService participateService;
 
     @GetMapping
-    public ResponseEntity<SuccessResponseDTO> surveys() {
+    public ResponseEntity<SuccessResponseDTO> surveys(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "1") int size) {
 
-        List<SurveyResponseDTO> surveys = service.getAllSurveys();
+        Page<SurveyResponseDTO> pageSurvey = service.getAllSurveys(page , size);
+
+        PageResponseDTO pageDTO = new PageResponseDTO(
+                pageSurvey.getTotalPages(),
+                pageSurvey.getSize(),
+                pageSurvey.getNumber(),
+                pageSurvey.hasPrevious()  ? pageSurvey.getNumber() - 1 : 0,
+                pageSurvey.hasNext() ? pageSurvey.getNumber() + 1 : pageSurvey.getNumber()
+        );
+
         return Response.success(200,
                 "Surveys retrieve successfully",
-                "surveys",
-                surveys
+                "surveys" ,
+                pageSurvey.getContent(),
+                pageDTO
         );
 
     }
@@ -68,7 +76,7 @@ public class SurveyController {
     public ResponseEntity<SuccessResponseDTO> edit(
             @Valid
             @PathVariable
-            @Exists(entity = Survey.class, message = "Survey Not Found") Long id,
+            @Exists(entity = Survey.class, message = "Survey not found.") Long id,
             @Valid
             @RequestBody SurveyUpdateDTO dto
     ) {

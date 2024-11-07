@@ -11,6 +11,9 @@ import ma.youcode.surveyit.mapper.ChapterMapper;
 import ma.youcode.surveyit.repository.ChapterRepository;
 import ma.youcode.surveyit.service.interfaces.EditionService;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,10 +62,11 @@ public class ChapterServiceImp implements ChapterService {
     }
 
     @Override
-    public List<ChapterResponseDTO> getAllChapters() {
+    public Page<ChapterResponseDTO> getAllChapters(int page , int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Chapter> chaptersPage = repository.findAll(pageable);
 
-        return repository.findAll().stream()
-                .map(mapper::toResponseDTO).toList();
+        return chaptersPage.map(mapper::toResponseDTO);
 
     }
 

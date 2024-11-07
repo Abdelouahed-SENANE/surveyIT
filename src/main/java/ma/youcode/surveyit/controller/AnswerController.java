@@ -6,12 +6,14 @@ import ma.youcode.surveyit.annotation.interfaces.Exists;
 import ma.youcode.surveyit.dto.request.answer.AnswerCreateDTO;
 import ma.youcode.surveyit.dto.request.answer.AnswerUpdateDTO;
 import ma.youcode.surveyit.dto.response.answer.AnswerResponseDTO;
+import ma.youcode.surveyit.dto.response.transfer.PageResponseDTO;
 import ma.youcode.surveyit.dto.response.transfer.SuccessResponseDTO;
 import ma.youcode.surveyit.entity.Answer;
 import ma.youcode.surveyit.service.interfaces.AnswerService;
 import ma.youcode.surveyit.util.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +29,19 @@ public class AnswerController {
 
 
     @GetMapping
-    public ResponseEntity<SuccessResponseDTO> answers() {
+    public ResponseEntity<SuccessResponseDTO> answers(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "0") int size) {
 
-        List<AnswerResponseDTO> response = service.getAllAnswers();
-        return Response.success(200, "Answers retrieve successfully", "answers", response);
+        Page<AnswerResponseDTO> answersPage = service.getAllAnswers(page , size);
+
+        PageResponseDTO pageDTO = new PageResponseDTO(
+                answersPage.getTotalPages(),
+                answersPage.getSize(),
+                answersPage.getNumber(),
+                answersPage.hasPrevious() ? answersPage.getNumber() - 1 : 0,
+                answersPage.hasNext() ? answersPage.getNumber() + 1 : answersPage.getNumber()
+        );
+
+        return Response.success(200, "Answers retrieve successfully", "answers", answersPage.getContent() , pageDTO);
 
     }
 
