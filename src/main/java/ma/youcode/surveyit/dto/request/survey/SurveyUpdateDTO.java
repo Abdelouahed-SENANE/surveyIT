@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 public record SurveyUpdateDTO
         (
-                Long id,
                 @NotEmpty
                 String title,
                 @NotEmpty

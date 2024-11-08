@@ -21,10 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/surveys")
 @AllArgsConstructor
@@ -40,20 +36,10 @@ public class SurveyController {
         int index  = page > 0 ? page - 1 : 0;
         Page<SurveyResponseDTO> pageSurvey = service.getAllSurveys(index , size);
 
-        PageResponseDTO pageDTO = new PageResponseDTO(
-                pageSurvey.getTotalElements(),
-                pageSurvey.getTotalPages(),
-                pageSurvey.getSize(),
-                pageSurvey.getNumber() + 1,
-                pageSurvey.hasPrevious(),
-                pageSurvey.hasNext()
-        );
-
         return Response.success(200,
                 "Surveys retrieve successfully",
                 "surveys" ,
-                pageSurvey.getContent(),
-                pageDTO
+                pageSurvey
         );
 
     }
@@ -132,6 +118,5 @@ public class SurveyController {
         SurveyResultDTO results = service.getSurveyResults(surveyId);
         return Response.success(200 , "Results for survey successfully" , "results",results);
     }
-
 
 }

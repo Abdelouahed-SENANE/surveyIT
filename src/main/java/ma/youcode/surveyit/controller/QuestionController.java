@@ -31,19 +31,10 @@ public class QuestionController {
 
         Page<QuestionResponseDTO> questionsPage = service.getAllQuestions(index , size);
 
-        PageResponseDTO pageDTO = new PageResponseDTO(
-                questionsPage.getTotalElements(),
-                questionsPage.getTotalPages(),
-                questionsPage.getSize(),
-                questionsPage.getNumber() + 1,
-                questionsPage.hasPrevious(),
-                questionsPage.hasNext()
-        );
         return Response.success(200,
                 "Questions retrieve successfully",
                 "questions",
-                questionsPage.getContent(),
-                pageDTO
+                questionsPage
         );
 
 

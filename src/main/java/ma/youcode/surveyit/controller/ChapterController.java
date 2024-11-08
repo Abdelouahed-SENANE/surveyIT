@@ -36,20 +36,11 @@ public class ChapterController {
         int index  = page > 0 ? page - 1 : 0;
 
         Page<ChapterResponseDTO> chaptersPage = service.getAllChapters(index, size);
-        PageResponseDTO pageDTO = new PageResponseDTO(
-                chaptersPage.getTotalElements(),
-                chaptersPage.getTotalPages(),
-                chaptersPage.getSize(),
-                chaptersPage.getNumber() + 1,
-                chaptersPage.hasPrevious(),
-                chaptersPage.hasNext()
-        );
+
         return Response.success(200,
                 "Chapters retrieve successfully",
                 "chapters",
-                chaptersPage.getContent(),
-                pageDTO
-        );
+                chaptersPage        );
 
     }
 

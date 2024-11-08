@@ -90,7 +90,7 @@ public class SurveyServiceImp implements SurveyService {
         return processSurvey(survey);
     }
 
-    private SurveyResultDTO processSurvey(Survey survey) {
+    public SurveyResultDTO processSurvey(Survey survey) {
 
         List<SurveyResultDTO.Chapter> chapters = survey.getEditions().stream()
                 .flatMap(edition -> edition.getChapters().stream()

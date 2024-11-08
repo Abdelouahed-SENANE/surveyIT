@@ -35,20 +35,12 @@ public class EditionController {
 
         Page<EditionResponseDTO> editionsPage = service.getAllEditions(index, size);
 
-        PageResponseDTO pageDTO = new PageResponseDTO(
-                editionsPage.getTotalElements(),
-                editionsPage.getTotalPages(),
-                editionsPage.getSize(),
-                editionsPage.getNumber() +  1,
-                editionsPage.hasPrevious(),
-                editionsPage.hasNext()
-        );
+
 
         return Response.success(200,
                 "Editions retrieve successfully",
                 "editions",
-                editionsPage.getContent(),
-                pageDTO
+                editionsPage
         );
 
     }

@@ -28,23 +28,12 @@ public class OwnerController {
     public ResponseEntity<SuccessResponseDTO> owners(@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "5") int size) {
 
         int index  = page > 0 ? page - 1 : 0;
-
-        Page<OwnerResponseDTO> ownersPage = service.getAllOwners( index , size);
-
-        PageResponseDTO pageDTO = new PageResponseDTO(
-                ownersPage.getTotalElements(),
-                ownersPage.getTotalPages(),
-                ownersPage.getSize(),
-                ownersPage.getNumber() + 1,
-                ownersPage.hasPrevious(),
-                ownersPage.hasNext()
-        );
+        Page<OwnerResponseDTO> ownersPage = service.getAllOwners(index , size);
 
         return Response.success(200,
                 "Owners retrieve successfully",
                 "owners",
-                ownersPage.getContent(),
-                pageDTO
+                ownersPage
         );
 
     }

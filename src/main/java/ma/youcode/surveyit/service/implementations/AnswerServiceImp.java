@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import ma.youcode.surveyit.dto.request.answer.AnswerCreateDTO;
 import ma.youcode.surveyit.dto.request.answer.AnswerUpdateDTO;
 import ma.youcode.surveyit.dto.response.answer.AnswerResponseDTO;
-import ma.youcode.surveyit.entity.Chapter;
 import ma.youcode.surveyit.entity.Answer;
 import ma.youcode.surveyit.entity.Question;
 import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.AnswerMapper;
 import ma.youcode.surveyit.repository.AnswerRepository;
-import ma.youcode.surveyit.service.interfaces.ChapterService;
 import ma.youcode.surveyit.service.interfaces.AnswerService;
 import ma.youcode.surveyit.service.interfaces.QuestionService;
 import org.springframework.data.domain.Page;
@@ -43,10 +41,10 @@ public class AnswerServiceImp implements AnswerService {
     @Override
     public AnswerResponseDTO editAnswer(AnswerUpdateDTO dto, Long id) {
 
-//        Answer answer = repository.findById(id).get();
-//        answer.setTitle(dto.title());
-//        return mapper.toResponseDTO(repository.save(answer));
-        return null;
+        Answer toAnswer = mapper.toAnswer(dto);
+        toAnswer.setId(id);
+        return mapper.toResponseDTO(repository.save(toAnswer));
+
     }
 
     @Override
@@ -61,8 +59,7 @@ public class AnswerServiceImp implements AnswerService {
 
         Page<Answer> answersPage = repository.findAll(pageable);
 
-        return answersPage.map(mapper::toResponseDTO);
-
+            return answersPage.map(mapper::toResponseDTO);
     }
 
     @Override

@@ -5,22 +5,16 @@ import ma.youcode.surveyit.dto.request.question.QuestionCreateDTO;
 import ma.youcode.surveyit.dto.request.question.QuestionUpdateDTO;
 import ma.youcode.surveyit.dto.response.question.QuestionResponseDTO;
 import ma.youcode.surveyit.entity.Chapter;
-import ma.youcode.surveyit.entity.Owner;
 import ma.youcode.surveyit.entity.Question;
 import ma.youcode.surveyit.exception.EntityNotFoundException;
 import ma.youcode.surveyit.mapper.QuestionMapper;
 import ma.youcode.surveyit.repository.QuestionRepository;
 import ma.youcode.surveyit.service.interfaces.ChapterService;
 import ma.youcode.surveyit.service.interfaces.QuestionService;
-import ma.youcode.surveyit.service.interfaces.EditionService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -49,10 +43,9 @@ public class QuestionServiceImp implements QuestionService {
     @Override
     public QuestionResponseDTO editQuestion(QuestionUpdateDTO dto, Long id) {
 
-//        Question question = repository.findById(id).get();
-//        question.setTitle(dto.title());
-//        return mapper.toResponseDTO(repository.save(question));
-        return null;
+        Question question = repository.findById(id).get();
+        question.setText(dto.text());
+        return mapper.toResponseDTO(repository.save(question));
     }
 
     @Override
