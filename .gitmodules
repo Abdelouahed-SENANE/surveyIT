@@ -1,0 +1,6 @@
+[submodule "surveyit-api"]
+	path = surveyit-api
+	url = https://github.com/Abdelouahed-SENANE/surveyit-api.git
+[submodule "surveyit-view"]
+	path = surveyit-view
+	url = https://github.com/Abdelouahed-SENANE/surveyit-view.git
